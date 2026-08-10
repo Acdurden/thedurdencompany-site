@@ -1,0 +1,28 @@
+name: Deploy to Cloudflare Pages
+
+# Runs every time you push to the main branch (which is what GitHub Desktop does
+# when you commit and push). It republishes this folder to the existing
+# "the-durden-company" Cloudflare Pages project, so thedurdencompany.com updates
+# automatically. No zip uploads needed.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Publish to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: 8ee6da8a5dccd7cb19015cbadd6bbc7c
+          command: pages deploy . --project-name=the-durden-company --branch=main --commit-dirty=true
