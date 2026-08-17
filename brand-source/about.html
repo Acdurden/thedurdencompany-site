@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Durden Company</title>
+<title>About Andrew Durden | The Durden Company</title>
+<meta name="description" content="Andrew Durden owns The Durden Company, a private holding company, and originates mortgages as a licensed loan officer with Loan Factory, Inc. Nearly a decade in institutional real estate finance. Based in Vero Beach, Florida.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -132,127 +133,144 @@
     .grid{grid-template-columns:1fr}
     .nav-links a:not(.btn){display:none}
   }
+
+  /* ABOUT PAGE */
+  .ab-hero{padding:74px 0 26px}
+  .ab-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:52px;align-items:end}
+  .ab-hero h1{font-weight:500;font-size:clamp(34px,4.4vw,54px);line-height:1.06;letter-spacing:-.01em;max-width:19ch;margin-top:22px}
+  .ab-hero h1 em{font-style:italic;font-weight:400;color:var(--accent)}
+  .ab-hero .lede{font-size:clamp(16.5px,1.7vw,19px);color:var(--ink-2);max-width:52ch;margin-top:24px}
+  .ab-hero .meta{margin-top:24px;display:flex;gap:10px;flex-wrap:wrap}
+  .tag{font-size:11px;letter-spacing:.11em;text-transform:uppercase;font-weight:700;color:var(--accent);
+       background:#eef2f7;border:1px solid #c6d2e0;border-radius:3px;padding:5px 11px}
+  .shot{position:relative;display:flex;justify-content:center;align-items:flex-end;min-height:340px}
+  .shot::before{content:"";position:absolute;left:50%;transform:translateX(-50%);bottom:0;
+       width:min(430px,100%);height:78%;background:linear-gradient(180deg,var(--paper-2) 0%,rgba(234,238,242,0) 100%);
+       border-radius:220px 220px 0 0}
+  .shot img{position:relative;display:block;width:100%;max-width:420px;height:auto}
+
+  .ab-sec{padding:70px 0;border-top:1px solid var(--line)}
+  .ab-sec .in{max-width:none}
+  .two{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:52px}
+  .two h2{font-weight:500;font-size:clamp(27px,3.2vw,36px);line-height:1.1;letter-spacing:-.01em;margin-top:12px;max-width:14ch}
+  .two p{font-size:17px;color:var(--ink-2);margin-top:0}
+  .two p + p{margin-top:18px}
+  .two .body{max-width:64ch}
+  .pull{margin-top:26px;padding:20px 24px;background:var(--card);border:1px solid var(--line);
+        border-left:3px solid var(--pencil-gold);border-radius:0 8px 8px 0;box-shadow:var(--shadow)}
+  .pull .k{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+  .pull p{font-size:16px;margin-top:7px;color:var(--ink)}
+
+  .ab-lend{background:var(--ink);color:#e7edf3;padding:74px 0;border-top:1px solid var(--line)}
+  .ab-lend .label.accent{color:#8fb0d6}
+  .ab-lend h2{font-weight:500;font-size:clamp(27px,3.2vw,36px);line-height:1.1;color:#fff;letter-spacing:-.01em;margin-top:12px;max-width:14ch}
+  .ab-lend p{color:#b7c4d2;font-size:17px}
+  .ab-lend p + p{margin-top:18px}
+  .ab-lend .body{max-width:64ch}
+  .cans{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:28px}
+  .can{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:18px 20px}
+  .can .k{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#8fb0d6}
+  .can .n{font-family:'Newsreader',serif;font-size:19px;color:#fff;margin-top:6px;line-height:1.25}
+  .ab-lend .cta-row{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}
+  .btn-ghost{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.22);
+             padding:13px 22px;font-size:15px;font-weight:600;border-radius:4px}
+  .btn-ghost:hover{background:rgba(255,255,255,.15)}
+  .btn-light{background:#fff;color:var(--ink);padding:13px 22px;font-size:15px;font-weight:700;border-radius:4px}
+  .btn-light:hover{transform:translateY(-1px)}
+  .lic{margin-top:34px;padding-top:20px;border-top:1px solid rgba(255,255,255,.14);
+       display:flex;gap:14px;align-items:flex-start}
+  .lic img{width:26px;height:auto;flex:0 0 auto;margin-top:2px;filter:brightness(0) invert(1);opacity:.62}
+  .lic p{font-size:12px;line-height:1.65;color:#8ea0b2;max-width:96ch;margin:0}
+  .lic a{color:#8ea0b2;text-decoration:underline}
+
+  @media (max-width:860px){
+    .ab-grid{grid-template-columns:1fr;gap:30px}
+    .shot{order:-1;min-height:0}
+    .shot img{max-width:300px}
+    .two{grid-template-columns:1fr;gap:18px}
+    .cans{grid-template-columns:1fr}
+  }
 </style>
 </head>
 <body>
-
 <header>
   <div class="wrap nav">
-    <a class="mark" href="#top">The Durden Company</a>
+    <a class="mark" href="/">The Durden Company</a>
     <nav class="nav-links">
-      <a href="#ventures">Businesses</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
+      <a href="/#ventures">Businesses</a>
+      <a href="/about" style="color:var(--ink)">About</a>
+      <a href="/#contact">Contact</a>
       <a href="https://pencildscr.com" class="btn btn-nav">Try Pencil</a>
     </nav>
   </div>
 </header>
-<a id="top"></a>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="wrap">
-    <div class="label accent ey">Private holding company</div>
-    <h1>We build businesses worth <em>holding</em>.</h1>
-    <p class="lede">The Durden Company is a private holding company. We own and operate a small portfolio, led by Pencil, spanning software and supplements, alongside an affiliated nutrition practice.</p>
-    <div class="cta-row">
-      <a href="#ventures" class="btn btn-dark">See the businesses</a>
-      <a href="https://pencildscr.com" class="btn btn-line">Try Pencil free</a>
+<section class="ab-hero">
+  <div class="wrap ab-grid">
+    <div>
+      <div class="label accent">About</div>
+      <h1>The numbers first, then the <em>loan</em>.</h1>
+      <p class="lede">Andrew Durden owns The Durden Company, a private holding company, and originates mortgages as a licensed loan officer with Loan Factory, Inc. He is based in Vero Beach, Florida.</p>
+      <div class="meta">
+        <span class="tag">Vero Beach, FL</span>
+        <span class="tag">Institutional real estate</span>
+        <span class="tag">MLO, NMLS #2774438</span>
+      </div>
     </div>
-    <p class="thin">Owner operated. Held for the long term, not traded.</p>
+    <div class="shot">
+      <picture>
+        <source srcset="/andrew-cutout-1520.webp 1520w, /andrew-cutout-760.webp 760w" sizes="(max-width:860px) 300px, 420px" type="image/webp">
+        <img src="/andrew-cutout-760.png" width="760" height="1360" alt="Andrew Durden" loading="eager">
+      </picture>
+    </div>
   </div>
 </section>
 
-<!-- FEATURED: PENCIL -->
-<section class="featured">
-  <div class="wrap">
-    <div class="feat-card">
-      <div class="feat-left">
-        <span class="flag">Flagship product</span>
-        <h2>Pencil</h2>
-        <p>The DSCR and rental-property tool that tells you if a rental pencils in under 60 seconds. Single-family, condo, multifamily, and short-term, from the first number to the final call.</p>
-        <div class="cta-row">
-          <a href="https://pencildscr.com" class="btn btn-gold">Try it free</a>
-          <a href="https://pencildscr.com" class="btn btn-glass">Create an account</a>
-        </div>
-      </div>
-      <div class="feat-right">
-        <div class="napkin">
-          <div class="nt"><span class="nm">Pencil, First Look</span><span class="tg">Illustrative</span></div>
-          <div class="ng">
-            <div class="c"><div class="k">Purchase</div><div class="v">$475,000</div></div>
-            <div class="c"><div class="k">Rent</div><div class="v">$4,500 / mo</div></div>
-            <div class="c"><div class="k">Down</div><div class="v">25%</div></div>
-            <div class="c"><div class="k">Net op. income</div><div class="v">$35,531</div></div>
-          </div>
-          <div class="no">
-            <div><div class="k">Debt service coverage</div><div class="d">1.43</div></div>
-            <span class="pill">It pencils</span>
-          </div>
-        </div>
+<section class="ab-sec">
+  <div class="wrap two">
+    <div>
+      <div class="label accent">The operator</div>
+      <h2>Where the habit came from.</h2>
+    </div>
+    <div class="body">
+      <p>For nearly a decade Andrew worked in institutional real estate finance, doing financial modeling, asset management, and portfolio analysis at Tricon Residential, BKM Capital Partners, and Phoenix Tower International. He underwrote rental assets at scale, from the inside, and learned how large operators actually evaluate a deal.</p>
+      <p>That habit never left. The Durden Company is where it lives now: a private holding company he owns and runs, built around a few businesses he intends to hold rather than trade. He takes a hands-on role in each one, from the product decisions inside Pencil to the operations behind the others.</p>
+      <div class="pull">
+        <div class="k">Why Pencil exists</div>
+        <p>Most investors decide with a spreadsheet they half trust. Pencil tells them whether a rental pencils in under 60 seconds, and it reconciles to a real financial engine rather than a rule of thumb. It is free, and it is the tool Andrew wanted when he was on the institutional side.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- VENTURES -->
-<section id="ventures" class="ventures">
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="label accent">The businesses</div>
-      <h2>What we own, and who we work alongside.</h2>
-      <p>A short list. Some we build and own outright, some we are affiliated with, and one is Andrew's own licensed practice, held separately from the company. Each stands on its own.</p>
+<section class="ab-lend">
+  <div class="wrap two">
+    <div>
+      <div class="label accent">The lending practice</div>
+      <h2>And he can finance the deal.</h2>
     </div>
-    <div class="grid">
-
-      <!-- Pencil (owned, flagship) -->
-      <div class="v">
-        <div class="top"><span class="dot" style="background:var(--pencil-gold)"></span><span class="cat">Software</span><span class="chip flag">Flagship</span></div>
-        <h3>Pencil</h3>
-        <p>Institutional-grade underwriting for real estate investors. A free First Look, a full model, and a pipeline workspace, on the web and on your phone.</p>
-        <a href="https://pencildscr.com" class="go">Visit pencildscr.com &rarr;</a>
+    <div class="body">
+      <p>Andrew is a licensed Mortgage Loan Originator with Loan Factory, Inc. This is his own licensed practice, held separately from The Durden Company, which is not a mortgage lender or broker.</p>
+      <p>He keeps it simple. Four kinds of loans, for homebuyers and for real estate investors.</p>
+      <div class="cans">
+        <div class="can"><div class="k">Florida</div><div class="n">Purchase loans</div></div>
+        <div class="can"><div class="k">Florida</div><div class="n">Refinance</div></div>
+        <div class="can"><div class="k">40+ states</div><div class="n">DSCR rental loans</div></div>
+        <div class="can"><div class="k">Nationwide</div><div class="n">Commercial</div></div>
       </div>
-
-      <!-- GO Thyme (owned) -->
-      <div class="v">
-        <div class="top"><span class="dot" style="background:#1c4b49"></span><span class="cat">Supplements</span><span class="chip owned">Owned</span></div>
-        <h3>GO Thyme</h3>
-        <p>A direct-to-consumer supplement line built on clinically studied, branded ingredients. Third-party tested, transparent labels, made in the USA. Wellness that works from the inside out.</p>
-        <a href="https://gothyme.com" class="go">Visit gothyme.com &rarr;</a>
+      <p style="margin-top:24px">Most tools stop at the analysis. Andrew can finance the deal too.</p>
+      <div class="cta-row">
+        <a href="https://loanfactory.com/mortgage-expert/andrew-durden-2774438" class="btn btn-light">View his Loan Factory profile</a>
+        <a href="mailto:andrew.durden@loanfactory.com" class="btn btn-ghost">Email him about a loan</a>
       </div>
-
-      <!-- Nutrition Thyme (affiliated) -->
-      <div class="v">
-        <div class="top"><span class="dot" style="background:#c2724e"></span><span class="cat">Nutrition practice</span><span class="chip">Affiliated</span></div>
-        <h3>Nutrition Thyme</h3>
-        <p>A dietitian-led functional nutrition practice founded by Tara Moran, MS, RDN. Personalized 1:1 therapy, functional lab testing, and a warm, realistic approach to lasting change. Vero Beach, Huntington Beach, and virtual.</p>
-        <a href="https://nutrition-thyme.com" class="go">Visit nutrition-thyme.com &rarr;</a>
+      <div class="lic">
+        <img src="/equal-housing.png" alt="Equal Housing Opportunity">
+        <p>Andrew Durden, Mortgage Loan Originator, NMLS #2774438. Loan Factory, Inc., NMLS #320841. Equal Housing Opportunity. Verify licensing at <a href="https://www.nmlsconsumeraccess.org/">NMLS Consumer Access</a>. The Durden Company is not a licensed mortgage lender or broker and does not provide, arrange, or broker financing. Nothing on this page is a commitment to lend, a rate quote, or an offer of credit. All loans are subject to credit approval, program guidelines, property eligibility, and underwriting review. Terms and availability vary by state and are subject to change without notice.</p>
       </div>
-
-      <!-- Andrew Durden, MLO (personal, licensed through Loan Factory, NOT a TDC product) -->
-      <div class="v">
-        <div class="top"><span class="dot" style="background:var(--mortgage)"></span><span class="cat">Mortgage origination</span><span class="chip personal">Personal</span></div>
-        <h3>Andrew Durden, MLO</h3>
-        <p>Andrew is a licensed mortgage loan originator with Loan Factory, Inc. He works with real estate investors and homebuyers: purchase and refinance in Florida, DSCR rental loans in more than 40 states, and commercial financing nationwide. This is his own licensed practice, held outside The Durden Company.</p>
-        <a href="https://loanfactory.com/mortgage-expert/andrew-durden-2774438" class="go">View his Loan Factory profile &rarr;</a>
-        <p class="disc">Andrew Durden, Mortgage Loan Originator, NMLS #2774438. Loan Factory, Inc., NMLS #320841. Equal Housing Opportunity. The Durden Company is not a licensed mortgage lender or broker and does not provide, arrange, or broker financing. Not a commitment to lend. All loans subject to credit approval, program guidelines, and property eligibility.</p>
-      </div>
-
     </div>
   </div>
 </section>
 
-<!-- ABOUT -->
-<section id="about" class="about">
-  <div class="wrap in">
-    <div class="label accent">About</div>
-    <h2>The operator behind it.</h2>
-    <p>The Durden Company is a personal holding company, owned and run by Andrew Durden. He takes a hands-on role in each business, from Pencil's product to the operations behind the others.</p>
-    <p class="s">His background is institutional real estate, at firms including BKM Capital Partners and Tricon Residential, where he learned to underwrite and operate at scale.</p>
-  </div>
-</section>
-
-<!-- FOOTER / CONTACT -->
 <footer id="contact">
   <div class="wrap">
     <div class="foot">
@@ -266,7 +284,7 @@
         </div>
         <div class="col">
           <span class="h">Company</span>
-          <a href="#about">About</a>
+          <a href="/about">About</a>
           <a href="mailto:adurden@thedurdencompany.com">Contact</a>
         </div>
       </div>
@@ -274,6 +292,5 @@
     <div class="legal">© 2026 The Durden Company. All rights reserved. Figures shown for Pencil are illustrative and are not an offer, a quote, or a guarantee of any result. Mortgage origination referenced on this page is offered by Andrew Durden individually, NMLS #2774438, through Loan Factory, Inc., NMLS #320841, Equal Housing Opportunity. The Durden Company is not a licensed mortgage lender or broker and does not provide, arrange, or broker financing. Nothing here is a commitment to lend, a rate quote, or an offer of credit.</div>
   </div>
 </footer>
-
 </body>
 </html>
