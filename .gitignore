@@ -1,2 +1,4 @@
 # Scratch/backup folders created during asset builds. Never commit these.
 _to_delete/
+# Preview images the Claude desktop app drops here. Never commit or deploy.
+Claude outputs/
