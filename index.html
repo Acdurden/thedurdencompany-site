@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Durden Company</title>
-<meta name="description" content="A private holding company owned and run by Andrew Durden. Home of Pencil, the free DSCR tool that tells you if a rental pencils in under 60 seconds, and GO thyme, alongside an affiliated nutrition practice.">
+<meta name="description" content="A private holding company owned and run by Andrew Durden. Home of Pencil, which tells investors whether a rental pencils before they make the offer, and GO thyme, alongside an affiliated nutrition practice.">
 <link rel="canonical" href="https://thedurdencompany.com/">
-<meta name="theme-color" content="#0E1B2A">
+<meta name="theme-color" content="#1C1C1A">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="The Durden Company">
 <meta property="og:url" content="https://thedurdencompany.com/">
 <meta property="og:title" content="The Durden Company">
-<meta property="og:description" content="A private holding company owned and run by Andrew Durden. Home of Pencil, the free DSCR tool that tells you if a rental pencils in under 60 seconds, and GO thyme, alongside an affiliated nutrition practice.">
+<meta property="og:description" content="A private holding company owned and run by Andrew Durden. Home of Pencil, which tells investors whether a rental pencils before they make the offer, and GO thyme, alongside an affiliated nutrition practice.">
 <meta property="og:image" content="https://thedurdencompany.com/og-cover.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
@@ -22,28 +22,34 @@
 <meta property="og:image:alt" content="The Durden Company. A private holding company. Pencil, GO thyme, Nutrition Thyme.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The Durden Company">
-<meta name="twitter:description" content="A private holding company owned and run by Andrew Durden. Home of Pencil, the free DSCR tool that tells you if a rental pencils in under 60 seconds, and GO thyme, alongside an affiliated nutrition practice.">
+<meta name="twitter:description" content="A private holding company owned and run by Andrew Durden. Home of Pencil, which tells investors whether a rental pencils before they make the offer, and GO thyme, alongside an affiliated nutrition practice.">
 <meta name="twitter:image" content="https://thedurdencompany.com/og-cover.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@800&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600;700&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    /* TDC parent brand: institutional finance. Cool ink-navy, white, restrained steel accent. No gold of its own. */
-    --paper:#F5F7F9;
-    --paper-2:#EAEEF2;
-    --ink:#0E1B2A;
-    --ink-2:#1c2c3d;
-    --muted:#5d6b7a;
-    --line:#dbe1e8;
-    --accent:#33506F;      /* steel blue, used sparingly */
-    --accent-soft:#4a6b90;
+    /* TDC parent brand (2026-10-09): warm charcoal on warm white, no hue of its own.
+       The parent stays neutral so each business carries its own color. No navy, no gold. */
+    --paper:#F7F6F2;
+    --paper-2:#EDEBE4;
+    --ink:#1C1C1A;
+    --ink-2:#34332F;
+    --muted:#6B6862;
+    --line:#DEDBD2;
+    --accent:#1C1C1A;      /* the parent's accent is its ink */
     --card:#FFFFFF;
-    --shadow:0 1px 2px rgba(14,27,42,.05),0 18px 40px rgba(14,27,42,.08);
-    /* venture accents (children keep their own color) */
-    --pencil-navy:#16324F;
-    --pencil-gold:#C08A2D;
-    --mortgage:#3E5266;
+    --on-dark:#F7F6F2;
+    --on-dark-2:#C9C6BD;
+    --on-dark-3:#A29F95;
+    /* each business keeps its own color */
+    --pencil-forest:#1E3B32;
+    --pencil-teal:#2C7A73;
+    --pencil-mint:#9FD3C7;
+    --pencil-paper:#F4F1E8;
+    --gothyme:#1c4b49;
+    --nthyme:#c2724e;
+    --mortgage:#8A867D;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
@@ -55,60 +61,59 @@
   .label.accent{color:var(--accent)}
 
   /* NAV */
-  header{position:sticky;top:0;z-index:40;background:rgba(245,247,249,.86);backdrop-filter:saturate(150%) blur(9px);border-bottom:1px solid var(--line)}
+  header{position:sticky;top:0;z-index:40;background:rgba(247,246,242,.9);backdrop-filter:saturate(150%) blur(9px);border-bottom:1px solid var(--line)}
   .nav{display:flex;align-items:center;justify-content:space-between;height:72px}
   .mark{font-weight:500;font-size:21px;color:var(--ink);letter-spacing:.005em}
   .nav-links{display:flex;align-items:center;gap:32px}
   .nav-links a{font-size:14px;font-weight:500;color:var(--muted);letter-spacing:.01em}
   .nav-links a:hover{color:var(--ink)}
   .nav-links a.btn,.nav-links a.btn:hover{color:var(--paper)}
-  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;border-radius:4px;cursor:pointer;border:1px solid transparent;transition:transform .12s,box-shadow .12s,background .12s,border-color .12s;font-family:'Inter',sans-serif}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;border-radius:2px;cursor:pointer;border:1px solid transparent;transition:transform .12s,box-shadow .12s,background .12s,border-color .12s;font-family:'Inter',sans-serif}
   .btn-nav{background:var(--ink);color:var(--paper);padding:9px 17px;font-size:13.5px}
-  .btn-nav:hover{background:#0a1420}
+  .btn-nav:hover{background:#000}
   .btn-dark{background:var(--ink);color:var(--paper);padding:14px 28px;font-size:15px}
-  .btn-dark:hover{transform:translateY(-1px);box-shadow:0 12px 26px rgba(14,27,42,.22)}
-  .btn-line{background:transparent;border-color:#c7d0da;color:var(--ink);padding:14px 28px;font-size:15px}
+  .btn-dark:hover{transform:translateY(-1px);box-shadow:0 12px 26px rgba(28,28,26,.22)}
+  .btn-line{background:transparent;border-color:#C9C5BA;color:var(--ink);padding:14px 28px;font-size:15px}
   .btn-line:hover{border-color:var(--ink)}
 
-  .menu-btn{display:none;align-items:center;justify-content:center;width:40px;height:40px;border:1px solid var(--line);border-radius:4px;background:transparent;color:var(--ink);cursor:pointer;margin-left:12px}
+  .menu-btn{display:none;align-items:center;justify-content:center;width:40px;height:40px;border:1px solid var(--line);border-radius:2px;background:transparent;color:var(--ink);cursor:pointer;margin-left:12px}
   .menu-btn svg{display:block}
   .menu-btn .x{display:none}
   .nav.open .menu-btn .bars{display:none}
   .nav.open .menu-btn .x{display:block}
   @media (max-width:860px){
     .menu-btn{display:inline-flex}
-    .nav-links{position:absolute;left:0;right:0;top:72px;display:none;flex-direction:column;align-items:stretch;gap:0;background:var(--paper);border-bottom:1px solid var(--line);box-shadow:0 18px 40px rgba(14,27,42,.10)}
+    .nav-links{position:absolute;left:0;right:0;top:72px;display:none;flex-direction:column;align-items:stretch;gap:0;background:var(--paper);border-bottom:1px solid var(--line);box-shadow:0 18px 40px rgba(28,28,26,.10)}
     .nav.open .nav-links{display:flex}
     .nav-links a{display:block;padding:15px 26px;font-size:16px;border-top:1px solid var(--line)}
-    .nav-links a.btn{margin:14px 26px 18px;border-radius:4px;text-align:center;justify-content:center}
+    .nav-links a.btn{margin:14px 26px 18px;border-radius:2px;text-align:center;justify-content:center}
   }
 
   /* HERO editorial, institutional */
-  .hero{padding:100px 0 34px}
-  .hero .ey{margin-bottom:24px}
-  .hero h1.lede-h{font-weight:500;font-size:clamp(28px,3.8vw,46px);line-height:1.18;letter-spacing:-.008em;max-width:22ch;color:var(--ink)}
+  .hero{padding:64px 0 0}
+  .hero .ey{margin-bottom:0}
+  .hero + .featured{padding-top:22px}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
   .hero .lede{font-size:clamp(17px,2vw,20px);color:var(--ink-2);max-width:56ch;margin-top:22px}
   .hero .cta-row{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap}
   .hero .thin{margin-top:22px;font-size:13px;letter-spacing:.02em;color:var(--muted)}
 
-  /* FEATURED: PENCIL keeps its own navy+gold identity */
+  /* FEATURED: Pencil in its own rebrand (forest, paper, mint). Matches src/components/brand/Logo.tsx. */
   .featured{padding:76px 0}
-  .feat-card{display:grid;grid-template-columns:1.05fr .95fr;gap:0;background:linear-gradient(155deg,#173654 0%, #0f2338 100%);border-radius:14px;overflow:hidden;box-shadow:0 30px 60px rgba(15,35,56,.30)}
-  .feat-left{padding:50px 48px;color:#eaf1f7}
-  .feat-left .flag{display:inline-flex;align-items:center;gap:8px;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:#0f2338;background:var(--pencil-gold);padding:5px 12px;border-radius:3px}
-  .feat-left h2{font-family:'Newsreader',serif;font-weight:500;color:#fff;font-size:clamp(32px,3.8vw,48px);line-height:1.02;margin:22px 0 0}
-  /* Pencil product wordmark. Still an h2 so the outline and screen readers keep the heading;
-     the SVG replaces the type. Letters are currentColor (white here), the period stays gold.
-     Aspect is locked 3.8425:1, so set height only and let the width follow. */
+  .feat-card{display:grid;grid-template-columns:1.05fr .95fr;gap:0;background:var(--pencil-forest);overflow:hidden}
+  .feat-left{padding:50px 48px;color:var(--pencil-paper)}
+  .feat-left .flag{font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--pencil-mint)}
+  .feat-left h2{font-family:'Newsreader',serif;font-weight:500;color:var(--pencil-paper);font-size:clamp(32px,3.8vw,48px);line-height:1.02;margin:22px 0 0}
+  /* Pencil product wordmark, reversed: paper letters, mint period. Still an h2 so the outline
+     and screen readers keep the heading. Aspect is locked 3.8425:1, so set height only. */
   .feat-left h2.pencil-wm{line-height:0}
-  .feat-left h2.pencil-wm svg{display:block;height:clamp(29px,3.5vw,44px);width:auto;color:#fff}
-  .feat-left p{color:#b9cbdb;font-size:16.5px;margin-top:16px;max-width:42ch}
+  .feat-left h2.pencil-wm svg{display:block;height:clamp(29px,3.5vw,44px);width:auto;color:var(--pencil-paper)}
+  .feat-left p{color:#C8D3CC;font-size:16.5px;margin-top:16px;max-width:44ch}
+  .feat-left p.hd{font-family:'Newsreader',serif;font-size:clamp(21px,2.2vw,25px);line-height:1.25;color:var(--pencil-paper);margin-top:22px}
   .feat-left .cta-row{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}
-  .btn-gold{background:var(--pencil-gold);color:#0f2338;padding:13px 22px;font-size:15px;font-weight:700;border-radius:4px}
-  .btn-gold:hover{background:#d29a3c;transform:translateY(-1px)}
-  .btn-glass{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.22);padding:13px 22px;font-size:15px;font-weight:600;border-radius:4px}
-  .btn-glass:hover{background:rgba(255,255,255,.15)}
-  .feat-right{background:rgba(255,255,255,.04);border-left:1px solid rgba(255,255,255,.09);padding:40px 36px;display:flex;align-items:center;justify-content:center}
+  .btn-paper{background:var(--pencil-paper);color:var(--pencil-forest);padding:13px 22px;font-size:15px;font-weight:700;border-radius:2px}
+  .btn-paper:hover{background:#fff;transform:translateY(-1px)}
+  .feat-right{background:rgba(255,255,255,.035);border-left:1px solid rgba(255,255,255,.10);padding:40px 36px;display:flex;align-items:center;justify-content:center}
   /* Pencil back-of-the-napkin, ported from the app's FirstLookNapkin. Same lines, same rounding rule. */
   .fln-wrap{display:flex;flex-direction:column;align-items:center;width:100%;padding:6px 4px 2px}
   .fln-stack{position:relative;width:100%;max-width:400px;filter:drop-shadow(0 14px 20px rgba(0,0,0,.28))}
@@ -137,44 +142,41 @@
   .fln-circle::after{content:"";position:absolute;inset:-6px -9px;background:no-repeat center/100% 100% url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="58"><path d="M60 5 C 94 4, 112 16, 110 30 C 108 45, 82 54, 58 54 C 32 54, 10 45, 10 29 C 10 16, 28 6, 60 5 Z" stroke="%23242b32" stroke-width="1.8" fill="none" opacity="0.7"/></svg>')}
   .fln-u{position:relative}
   .fln-u::after{content:"";position:absolute;left:-3%;right:-3%;bottom:-3px;height:6px;background:no-repeat center/100% 100% url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="6"><path d="M2 4 C 50 1, 100 6, 150 3 S 196 3, 198 4" stroke="%23242b32" stroke-width="2.1" fill="none" stroke-linecap="round" opacity="0.7"/></svg>')}
-  .fln-check{color:#1f6b45;font-weight:700}
+  .fln-check{color:#3B8A3E;font-weight:700}
   .fln-foot{font-family:'Kalam',cursive;font-size:13px;color:#847b6c;transform:rotate(-.4deg);margin-top:9px}
   .fln-brand{position:absolute;left:0;right:0;bottom:24px;z-index:2;display:flex;flex-direction:column;align-items:center;gap:3px}
-  .fln-divider{width:44px;height:1px;background:rgba(22,50,79,.28)}
+  .fln-divider{width:44px;height:1px;background:rgba(30,59,50,.28)}
   .fln-lock{display:flex;align-items:center;gap:7px}
-  .fln-wm{font-family:'Inter Tight','Inter',sans-serif;font-weight:800;font-size:19px;letter-spacing:-.02em;color:#16324F}
+  .fln-wm{display:block;height:15px;width:auto;color:#161614}
   @media (max-width:440px){.fln-napkin{padding:22px 20px 70px}.fln-line{font-size:19px}.fln-l1{font-size:20px}.fln-verdict{font-size:21px}}
 
   /* VENTURES */
   .ventures{padding:38px 0 88px}
-  .sec-head{max-width:60ch;margin-bottom:44px}
-  .sec-head h2{font-weight:500;font-size:clamp(30px,3.8vw,42px);color:var(--ink);letter-spacing:-.01em}
+  .sec-head{max-width:60ch;margin-bottom:22px}
+  .sec-head h2.label{font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:600;letter-spacing:.22em;line-height:1.62}
+  .sec-head h2{line-height:1.15;font-weight:500;font-size:clamp(30px,3.8vw,42px);color:var(--ink);letter-spacing:-.01em}
   .sec-head p{color:var(--muted);font-size:17px;margin-top:12px}
   .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
-  .v{position:relative;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:32px 32px 28px;box-shadow:var(--shadow);transition:transform .14s,box-shadow .14s,border-color .14s}
-  .v:hover{transform:translateY(-3px);box-shadow:0 24px 48px rgba(14,27,42,.14);border-color:#c7d0da}
+  .v{position:relative;background:var(--card);border:1px solid var(--line);border-radius:2px;padding:32px 32px 28px;transition:border-color .14s}
+  .v:hover{border-color:var(--ink)}
   .v .top{display:flex;align-items:center;gap:11px;margin-bottom:16px}
   .dot{width:9px;height:9px;border-radius:50%}
   .v h3{font-weight:600;font-size:25px;color:var(--ink);letter-spacing:-.01em}
   .v .cat{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--muted)}
-  .v .chip{margin-left:auto;font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;font-weight:700;padding:3px 9px;border-radius:3px;border:1px solid var(--line);color:var(--muted);background:#f3f6f8;white-space:nowrap}
-  .v .chip.flag{color:var(--pencil-navy);border-color:#cbd8e4;background:#eef3f8}
-  .v .chip.owned{color:var(--accent);border-color:#c6d2e0;background:#eef2f7}
-  .v .chip.personal{color:var(--mortgage);border-color:#cdd6df;background:#f1f5f8}
+  .v .chip{margin-left:auto;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--muted);white-space:nowrap}
   .v p{color:var(--ink-2);font-size:15px;margin-top:3px}
   .v .go{display:inline-flex;align-items:center;gap:7px;margin-top:18px;font-size:13.5px;font-weight:600;letter-spacing:.02em;color:var(--accent)}
   .v .go:hover{gap:11px}
-  .v .draft{display:inline-block;margin-top:14px;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8a7a4a;background:rgba(138,122,74,.09);border:1px dashed rgba(138,122,74,.5);border-radius:4px;padding:3px 9px}
   .disc{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted);line-height:1.55}
 
   /* ABOUT */
-  .about{background:var(--ink);color:#e7edf3;border-top:1px solid var(--line);padding:88px 0}
+  .about{background:var(--ink);color:var(--on-dark);border-top:1px solid var(--line);padding:88px 0}
   .about .in{max-width:720px}
-  .about .label.accent{color:#8fb0d6}
+  .about .label.accent{color:var(--on-dark-2)}
   .about h2{font-weight:500;font-size:clamp(28px,3.6vw,38px);color:#fff;letter-spacing:-.01em}
-  .about p{color:#b7c4d2;font-size:18px;margin-top:20px}
-  .about p.s{font-size:15px;color:#8ea0b2}
-  .about a.more{color:#8fb0d6;font-weight:600}
+  .about p{color:var(--on-dark-2);font-size:18px;margin-top:20px}
+  .about p.s{font-size:15px;color:var(--on-dark-3)}
+  .about a.more{color:var(--on-dark);font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(247,246,242,.35)}
   .about a.more:hover{color:#fff}
 
   /* FOOTER */
@@ -187,13 +189,15 @@
   .fl .col .h{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:3px}
   .fl a{font-size:14px;color:var(--ink-2)}
   .fl a:hover{color:var(--accent)}
-  .legal{margin-top:44px;padding-top:24px;border-top:1px solid var(--line);font-size:12px;color:#8b96a2;max-width:82ch}
+  .legal{margin-top:44px;padding-top:24px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);max-width:82ch}
 
   @media (max-width:860px){
     .feat-card{grid-template-columns:1fr}
     .feat-right{border-left:none;border-top:1px solid rgba(255,255,255,.09)}
     .grid{grid-template-columns:1fr}
   }
+  /* a section label that is also the section's heading */
+  h1.label,h2.label{font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:600;letter-spacing:.22em;line-height:1.62;margin-top:0;max-width:none}
 </style>
 </head>
 <body>
@@ -218,12 +222,8 @@
 <!-- HERO -->
 <section class="hero">
   <div class="wrap">
+    <h1 class="sr-only">The Durden Company</h1>
     <div class="label accent ey">Private holding company</div>
-    <h1 class="lede-h">The Durden Company owns and operates a small group of businesses, led by Pencil.</h1>
-    <div class="cta-row">
-      <a href="#ventures" class="btn btn-dark">See the businesses</a>
-      <a href="https://pencildscr.com" class="btn btn-line">Try Pencil free</a>
-    </div>
   </div>
 </section>
 
@@ -232,14 +232,15 @@
   <div class="wrap">
     <div class="feat-card">
       <div class="feat-left">
-        <span class="flag">Flagship product</span>
+        <div class="flag">Flagship product</div>
         <h2 class="pencil-wm">
           <svg xmlns="http://www.w3.org/2000/svg"
-                         viewBox="0 0 6182.5 1609.0" role="img" aria-label="Pencil"><title>Pencil</title><g transform="translate(-84.0, 1587.0)" fill="currentColor"><path d="M84 0V-1490H698Q866 -1490 988.0 -1425.0Q1110 -1360 1176.5 -1243.5Q1243 -1127 1243 -973Q1243 -819 1175.5 -704.0Q1108 -589 983.0 -525.5Q858 -462 688 -462H308V-746H621Q702 -746 757.5 -774.5Q813 -803 841.5 -854.0Q870 -905 870 -973Q870 -1043 841.5 -1093.5Q813 -1144 757.5 -1171.5Q702 -1199 620 -1199H443V0Z"/><path d="M1839.424 21Q1663.424 21 1536.424 -48.5Q1409.424 -118 1341.924 -247.0Q1274.424 -376 1274.424 -555Q1274.424 -728 1342.424 -857.5Q1410.424 -987 1534.424 -1059.5Q1658.424 -1132 1826.424 -1132Q1945.424 -1132 2044.924 -1094.5Q2144.424 -1057 2216.924 -984.5Q2289.424 -912 2328.924 -806.0Q2368.424 -700 2368.424 -561V-473H1397.424V-678H2199.424L2033.424 -630Q2033.424 -707 2010.424 -761.5Q1987.424 -816 1942.424 -846.0Q1897.424 -876 1830.424 -876Q1763.424 -876 1717.424 -846.0Q1671.424 -816 1647.424 -762.5Q1623.424 -709 1623.424 -636V-489Q1623.424 -411 1650.924 -354.0Q1678.424 -297 1728.924 -266.5Q1779.424 -236 1845.424 -236Q1891.424 -236 1929.424 -249.0Q1967.424 -262 1994.424 -287.5Q2021.424 -313 2035.424 -349L2361.424 -340Q2341.424 -230 2273.424 -149.0Q2205.424 -68 2095.424 -23.5Q1985.424 21 1839.424 21Z"/><path d="M2821.848 -637V0H2465.848V-1118H2817.848V-912H2826.848Q2864.848 -1014 2948.348 -1073.0Q3031.848 -1132 3155.848 -1132Q3273.848 -1132 3360.848 -1079.5Q3447.848 -1027 3495.848 -932.5Q3543.848 -838 3543.848 -712V0H3187.848V-642Q3187.848 -735 3140.848 -787.5Q3093.848 -840 3008.848 -840Q2952.848 -840 2910.848 -816.0Q2868.848 -792 2845.348 -746.5Q2821.848 -701 2821.848 -637Z"/><path d="M4208.272 21Q4031.272 21 3905.272 -52.0Q3779.272 -125 3712.272 -254.5Q3645.272 -384 3645.272 -555Q3645.272 -727 3712.272 -856.5Q3779.272 -986 3905.772 -1059.0Q4032.272 -1132 4208.272 -1132Q4363.272 -1132 4478.272 -1075.5Q4593.272 -1019 4658.272 -917.5Q4723.272 -816 4727.272 -678H4395.272Q4388.272 -735 4364.772 -776.0Q4341.272 -817 4302.772 -839.0Q4264.272 -861 4213.272 -861Q4151.272 -861 4104.772 -826.5Q4058.272 -792 4032.772 -724.5Q4007.272 -657 4007.272 -558Q4007.272 -459 4032.772 -390.5Q4058.272 -322 4104.272 -286.0Q4150.272 -250 4213.272 -250Q4286.272 -250 4335.272 -299.5Q4384.272 -349 4395.272 -438H4727.272Q4722.272 -300 4658.272 -196.5Q4594.272 -93 4480.272 -36.0Q4366.272 21 4208.272 21Z"/><path d="M4825.696 0V-1118H5181.696V0ZM5002.696 -1246Q4927.696 -1246 4873.696 -1296.0Q4819.696 -1346 4819.696 -1417Q4819.696 -1488 4873.696 -1537.5Q4927.696 -1587 5002.696 -1587Q5078.696 -1587 5132.196 -1537.5Q5185.696 -1488 5185.696 -1417Q5185.696 -1346 5132.196 -1296.0Q5078.696 -1246 5002.696 -1246Z"/><path d="M5681.12 -1490V0H5325.12V-1490Z"/><path d="M6075.544 22Q5994.544 22 5939.544 -32.5Q5884.544 -87 5884.544 -167Q5884.544 -247 5939.544 -301.5Q5994.544 -356 6075.544 -356Q6156.544 -356 6211.544 -301.5Q6266.544 -247 6266.544 -167Q6266.544 -87 6211.544 -32.5Q6156.544 22 6075.544 22Z" fill="#C08A2D"/></g></svg>
+                         viewBox="0 0 6182.5 1609.0" role="img" aria-label="Pencil"><title>Pencil</title><g transform="translate(-84.0, 1587.0)" fill="currentColor"><path d="M84 0V-1490H698Q866 -1490 988.0 -1425.0Q1110 -1360 1176.5 -1243.5Q1243 -1127 1243 -973Q1243 -819 1175.5 -704.0Q1108 -589 983.0 -525.5Q858 -462 688 -462H308V-746H621Q702 -746 757.5 -774.5Q813 -803 841.5 -854.0Q870 -905 870 -973Q870 -1043 841.5 -1093.5Q813 -1144 757.5 -1171.5Q702 -1199 620 -1199H443V0Z"/><path d="M1839.424 21Q1663.424 21 1536.424 -48.5Q1409.424 -118 1341.924 -247.0Q1274.424 -376 1274.424 -555Q1274.424 -728 1342.424 -857.5Q1410.424 -987 1534.424 -1059.5Q1658.424 -1132 1826.424 -1132Q1945.424 -1132 2044.924 -1094.5Q2144.424 -1057 2216.924 -984.5Q2289.424 -912 2328.924 -806.0Q2368.424 -700 2368.424 -561V-473H1397.424V-678H2199.424L2033.424 -630Q2033.424 -707 2010.424 -761.5Q1987.424 -816 1942.424 -846.0Q1897.424 -876 1830.424 -876Q1763.424 -876 1717.424 -846.0Q1671.424 -816 1647.424 -762.5Q1623.424 -709 1623.424 -636V-489Q1623.424 -411 1650.924 -354.0Q1678.424 -297 1728.924 -266.5Q1779.424 -236 1845.424 -236Q1891.424 -236 1929.424 -249.0Q1967.424 -262 1994.424 -287.5Q2021.424 -313 2035.424 -349L2361.424 -340Q2341.424 -230 2273.424 -149.0Q2205.424 -68 2095.424 -23.5Q1985.424 21 1839.424 21Z"/><path d="M2821.848 -637V0H2465.848V-1118H2817.848V-912H2826.848Q2864.848 -1014 2948.348 -1073.0Q3031.848 -1132 3155.848 -1132Q3273.848 -1132 3360.848 -1079.5Q3447.848 -1027 3495.848 -932.5Q3543.848 -838 3543.848 -712V0H3187.848V-642Q3187.848 -735 3140.848 -787.5Q3093.848 -840 3008.848 -840Q2952.848 -840 2910.848 -816.0Q2868.848 -792 2845.348 -746.5Q2821.848 -701 2821.848 -637Z"/><path d="M4208.272 21Q4031.272 21 3905.272 -52.0Q3779.272 -125 3712.272 -254.5Q3645.272 -384 3645.272 -555Q3645.272 -727 3712.272 -856.5Q3779.272 -986 3905.772 -1059.0Q4032.272 -1132 4208.272 -1132Q4363.272 -1132 4478.272 -1075.5Q4593.272 -1019 4658.272 -917.5Q4723.272 -816 4727.272 -678H4395.272Q4388.272 -735 4364.772 -776.0Q4341.272 -817 4302.772 -839.0Q4264.272 -861 4213.272 -861Q4151.272 -861 4104.772 -826.5Q4058.272 -792 4032.772 -724.5Q4007.272 -657 4007.272 -558Q4007.272 -459 4032.772 -390.5Q4058.272 -322 4104.272 -286.0Q4150.272 -250 4213.272 -250Q4286.272 -250 4335.272 -299.5Q4384.272 -349 4395.272 -438H4727.272Q4722.272 -300 4658.272 -196.5Q4594.272 -93 4480.272 -36.0Q4366.272 21 4208.272 21Z"/><path d="M4825.696 0V-1118H5181.696V0ZM5002.696 -1246Q4927.696 -1246 4873.696 -1296.0Q4819.696 -1346 4819.696 -1417Q4819.696 -1488 4873.696 -1537.5Q4927.696 -1587 5002.696 -1587Q5078.696 -1587 5132.196 -1537.5Q5185.696 -1488 5185.696 -1417Q5185.696 -1346 5132.196 -1296.0Q5078.696 -1246 5002.696 -1246Z"/><path d="M5681.12 -1490V0H5325.12V-1490Z"/><path d="M6075.544 22Q5994.544 22 5939.544 -32.5Q5884.544 -87 5884.544 -167Q5884.544 -247 5939.544 -301.5Q5994.544 -356 6075.544 -356Q6156.544 -356 6211.544 -301.5Q6266.544 -247 6266.544 -167Q6266.544 -87 6211.544 -32.5Q6156.544 22 6075.544 22Z" fill="#9FD3C7"/></g></svg>
         </h2>
-        <p>Type an address. Pencil pulls a live rent and value estimate, fills in the deal, and tells you if the rental pencils in under 60 seconds.</p>
+        <p class="hd">Know if a rental pencils before you make the offer.</p>
+        <p>Asking price, a rent estimate from nearby rentals and today's rate, worked out for homes for sale from Vero Beach to Fort Lauderdale.</p>
         <div class="cta-row">
-          <a href="https://pencildscr.com" class="btn btn-gold">Try it free</a>
+          <a href="https://pencildscr.com" class="btn btn-paper">Open Pencil</a>
         </div>
       </div>
       <div class="feat-right">
@@ -266,8 +267,8 @@
               <div class="fln-brand">
                 <div class="fln-divider"></div>
                 <div class="fln-lock">
-                  <svg class="fln-mk" width="18" height="18" viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M16 14 H40 L50 24 V50 H16 Z" stroke="#16324F" stroke-width="5" fill="none"/><path d="M40 14 L50 24 H40 Z" fill="#C08A2D"/></svg>
-                  <span class="fln-wm">Pencil</span>
+                  <svg class="fln-mk" width="18" height="18" viewBox="0 0 64 64" aria-hidden="true"><path d="M16 14 H40 L50 24 V50 H16 Z" fill="#FFFFFF" stroke="#1E3B32" stroke-width="4.5" stroke-linejoin="round"/><path d="M40 14 L50 24 H40 Z" fill="#2C7A73"/><path d="M40 14 V24 H50" fill="none" stroke="#1E3B32" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>
+                  <svg class="fln-wm" viewBox="0 0 6182.5 1609.0" role="img" aria-label="Pencil"><g transform="translate(-84.0, 1587.0)" fill="currentColor"><path d="M84 0V-1490H698Q866 -1490 988.0 -1425.0Q1110 -1360 1176.5 -1243.5Q1243 -1127 1243 -973Q1243 -819 1175.5 -704.0Q1108 -589 983.0 -525.5Q858 -462 688 -462H308V-746H621Q702 -746 757.5 -774.5Q813 -803 841.5 -854.0Q870 -905 870 -973Q870 -1043 841.5 -1093.5Q813 -1144 757.5 -1171.5Q702 -1199 620 -1199H443V0Z"/><path d="M1839.424 21Q1663.424 21 1536.424 -48.5Q1409.424 -118 1341.924 -247.0Q1274.424 -376 1274.424 -555Q1274.424 -728 1342.424 -857.5Q1410.424 -987 1534.424 -1059.5Q1658.424 -1132 1826.424 -1132Q1945.424 -1132 2044.924 -1094.5Q2144.424 -1057 2216.924 -984.5Q2289.424 -912 2328.924 -806.0Q2368.424 -700 2368.424 -561V-473H1397.424V-678H2199.424L2033.424 -630Q2033.424 -707 2010.424 -761.5Q1987.424 -816 1942.424 -846.0Q1897.424 -876 1830.424 -876Q1763.424 -876 1717.424 -846.0Q1671.424 -816 1647.424 -762.5Q1623.424 -709 1623.424 -636V-489Q1623.424 -411 1650.924 -354.0Q1678.424 -297 1728.924 -266.5Q1779.424 -236 1845.424 -236Q1891.424 -236 1929.424 -249.0Q1967.424 -262 1994.424 -287.5Q2021.424 -313 2035.424 -349L2361.424 -340Q2341.424 -230 2273.424 -149.0Q2205.424 -68 2095.424 -23.5Q1985.424 21 1839.424 21Z"/><path d="M2821.848 -637V0H2465.848V-1118H2817.848V-912H2826.848Q2864.848 -1014 2948.348 -1073.0Q3031.848 -1132 3155.848 -1132Q3273.848 -1132 3360.848 -1079.5Q3447.848 -1027 3495.848 -932.5Q3543.848 -838 3543.848 -712V0H3187.848V-642Q3187.848 -735 3140.848 -787.5Q3093.848 -840 3008.848 -840Q2952.848 -840 2910.848 -816.0Q2868.848 -792 2845.348 -746.5Q2821.848 -701 2821.848 -637Z"/><path d="M4208.272 21Q4031.272 21 3905.272 -52.0Q3779.272 -125 3712.272 -254.5Q3645.272 -384 3645.272 -555Q3645.272 -727 3712.272 -856.5Q3779.272 -986 3905.772 -1059.0Q4032.272 -1132 4208.272 -1132Q4363.272 -1132 4478.272 -1075.5Q4593.272 -1019 4658.272 -917.5Q4723.272 -816 4727.272 -678H4395.272Q4388.272 -735 4364.772 -776.0Q4341.272 -817 4302.772 -839.0Q4264.272 -861 4213.272 -861Q4151.272 -861 4104.772 -826.5Q4058.272 -792 4032.772 -724.5Q4007.272 -657 4007.272 -558Q4007.272 -459 4032.772 -390.5Q4058.272 -322 4104.272 -286.0Q4150.272 -250 4213.272 -250Q4286.272 -250 4335.272 -299.5Q4384.272 -349 4395.272 -438H4727.272Q4722.272 -300 4658.272 -196.5Q4594.272 -93 4480.272 -36.0Q4366.272 21 4208.272 21Z"/><path d="M4825.696 0V-1118H5181.696V0ZM5002.696 -1246Q4927.696 -1246 4873.696 -1296.0Q4819.696 -1346 4819.696 -1417Q4819.696 -1488 4873.696 -1537.5Q4927.696 -1587 5002.696 -1587Q5078.696 -1587 5132.196 -1537.5Q5185.696 -1488 5185.696 -1417Q5185.696 -1346 5132.196 -1296.0Q5078.696 -1246 5002.696 -1246Z"/><path d="M5681.12 -1490V0H5325.12V-1490Z"/><path d="M6075.544 22Q5994.544 22 5939.544 -32.5Q5884.544 -87 5884.544 -167Q5884.544 -247 5939.544 -301.5Q5994.544 -356 6075.544 -356Q6156.544 -356 6211.544 -301.5Q6266.544 -247 6266.544 -167Q6266.544 -87 6211.544 -32.5Q6156.544 22 6075.544 22Z" fill="#1E3B32"/></g></svg>
                 </div>
               </div>
             </div>
@@ -282,14 +283,13 @@
 <section id="ventures" class="ventures">
   <div class="wrap">
     <div class="sec-head">
-      <div class="label accent">The businesses</div>
-      <h2>What we own, and who we work alongside.</h2>
+      <h2 class="label accent">The businesses</h2>
     </div>
     <div class="grid">
 
       <!-- Pencil (owned, flagship) -->
       <div class="v">
-        <div class="top"><span class="dot" style="background:var(--pencil-gold)"></span><span class="cat">Software</span><span class="chip flag">Flagship</span></div>
+        <div class="top"><span class="dot" style="background:var(--pencil-forest)"></span><span class="cat">Software</span><span class="chip">Flagship</span></div>
         <h3>Pencil</h3>
         <p>Institutional-grade underwriting for real estate investors. A free First Look, a full model, and a pipeline workspace, on the web and on your phone.</p>
         <a href="https://pencildscr.com" class="go">Visit pencildscr.com &rarr;</a>
@@ -297,7 +297,7 @@
 
       <!-- GO thyme (owned) -->
       <div class="v">
-        <div class="top"><span class="dot" style="background:#1c4b49"></span><span class="cat">Supplements</span><span class="chip owned">Owned</span></div>
+        <div class="top"><span class="dot" style="background:var(--gothyme)"></span><span class="cat">Supplements</span><span class="chip">Owned</span></div>
         <h3>GO thyme</h3>
         <p>A direct-to-consumer supplement line built on clinically studied, branded ingredients. Third-party tested, transparent labels, made in the USA. Wellness that works from the inside out.</p>
         <a href="https://gothyme.com" class="go">Visit gothyme.com &rarr;</a>
@@ -305,7 +305,7 @@
 
       <!-- Nutrition Thyme (affiliated) -->
       <div class="v">
-        <div class="top"><span class="dot" style="background:#c2724e"></span><span class="cat">Nutrition practice</span><span class="chip">Affiliated</span></div>
+        <div class="top"><span class="dot" style="background:var(--nthyme)"></span><span class="cat">Nutrition practice</span><span class="chip">Affiliated</span></div>
         <h3>Nutrition Thyme</h3>
         <p>A dietitian-led functional nutrition practice founded by Tara Moran, MS, RDN. Personalized 1:1 therapy, functional lab testing, and a warm, realistic approach to lasting change. Vero Beach, Huntington Beach, and virtual.</p>
         <a href="https://nutrition-thyme.com" class="go">Visit nutrition-thyme.com &rarr;</a>
@@ -313,7 +313,7 @@
 
       <!-- Andrew Durden, MLO (personal, licensed through Loan Factory, NOT a TDC product) -->
       <div class="v">
-        <div class="top"><span class="dot" style="background:var(--mortgage)"></span><span class="cat">Mortgage origination</span><span class="chip personal">Personal</span></div>
+        <div class="top"><span class="dot" style="background:var(--mortgage)"></span><span class="cat">Mortgage origination</span><span class="chip">Personal</span></div>
         <h3>Andrew Durden, MLO</h3>
         <p>Andrew is a licensed mortgage loan originator with Loan Factory, Inc. He works with real estate investors and homebuyers: purchase and refinance in Florida, DSCR rental loans in more than 40 states, and commercial financing nationwide. This is his own licensed practice, held outside The Durden Company.</p>
         <a href="https://loanfactory.com/mortgage-expert/andrew-durden-2774438" class="go">View his Loan Factory profile &rarr;</a>
@@ -327,8 +327,7 @@
 <!-- ABOUT -->
 <section id="about" class="about">
   <div class="wrap in">
-    <div class="label accent">About</div>
-    <h2>The operator behind it.</h2>
+    <h2 class="label accent">About</h2>
     <p>The Durden Company is a personal holding company, owned and run by Andrew Durden. He takes a hands-on role in each business, from Pencil's product to the operations behind the others.</p>
     <p class="s">His background is institutional real estate, at firms including BKM Capital Partners and Tricon Residential, where he learned to underwrite and operate at scale.</p>
     <p class="s"><a class="more" href="/about">More about Andrew &rarr;</a> &nbsp;&middot;&nbsp; <a class="more" href="https://www.linkedin.com/in/andrewcdurden" target="_blank" rel="me noopener">LinkedIn &rarr;</a></p>
