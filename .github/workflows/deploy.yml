@@ -26,3 +26,22 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: 8ee6da8a5dccd7cb19015cbadd6bbc7c
           command: pages deploy . --project-name=the-durden-company --branch=main --commit-dirty=true
+
+      # Paint Pad: the kids' drawing app in the paintpad/ folder, published as its own
+      # Cloudflare Pages project so it can live at paintpad.thedurdencompany.com.
+      # The first step only matters on the very first run; after that the project
+      # already exists and the step is skipped over.
+      - name: Create the Paint Pad project (first run only)
+        continue-on-error: true
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: 8ee6da8a5dccd7cb19015cbadd6bbc7c
+          command: pages project create paintpad --production-branch=main
+
+      - name: Publish Paint Pad
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: 8ee6da8a5dccd7cb19015cbadd6bbc7c
+          command: pages deploy paintpad --project-name=paintpad --branch=main --commit-dirty=true

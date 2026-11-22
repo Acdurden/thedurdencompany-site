@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Paint Pad">
+<meta name="theme-color" content="#FFF4E6">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap">
+<title>Paint Pad</title>
+<style>
+:root{--ink:#2B2340;--soft:#5B5170;--bg:#FFF4E6;--line:#F1E6D6;--pick:#FFE9A8}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;overflow:hidden;overscroll-behavior:none;background:var(--bg)}
+body{
+  position:fixed;inset:0;
+  font-family:'Fredoka',system-ui,-apple-system,sans-serif;color:var(--ink);
+  -webkit-user-select:none;user-select:none;-webkit-touch-callout:none;
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr);
+  grid-template-rows:auto minmax(0,1fr) auto;
+  grid-template-areas:"top top" "tools stage" "bottom bottom";
+  gap:14px;
+  padding:max(14px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) max(14px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));
+}
+button{font-family:inherit;color:var(--ink);cursor:pointer;touch-action:manipulation;-webkit-appearance:none;appearance:none}
+svg{display:block}
+header{grid-area:top;display:flex;align-items:center;gap:12px;min-height:56px}
+.brand{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
+.brand b{font-size:30px;font-weight:700;letter-spacing:.5px;white-space:nowrap}
+.btn{height:56px;padding:0 18px;border:0;border-radius:18px;background:#fff;box-shadow:0 3px 0 rgba(43,35,64,.14);display:flex;align-items:center;gap:8px;font-size:18px;font-weight:600}
+.btn:active,.tool:active,.opt:active,.sw:active{transform:translateY(2px)}
+.btn.go{background:#2A9D55;color:#fff;box-shadow:0 3px 0 rgba(20,80,40,.35)}
+.btn.sq{width:56px;padding:0;justify-content:center}
+.btn:disabled{opacity:.4}
+#tools{grid-area:tools;display:flex;flex-direction:column;gap:10px;overflow-y:auto;scrollbar-width:none}
+.tool{width:92px;height:88px;flex:none;border-radius:24px;border:4px solid #fff;background:#fff;box-shadow:0 3px 0 rgba(43,35,64,.12);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0;font-size:15px;font-weight:600}
+.tool.on{border-color:var(--ink);background:var(--pick)}
+#stage{grid-area:stage;display:flex;align-items:center;justify-content:center;min-width:0;min-height:0;overflow:hidden}
+#paper{position:relative;background:#fff;border-radius:28px;overflow:hidden;box-shadow:0 6px 0 rgba(43,35,64,.10)}
+#paper canvas{position:absolute;inset:0;width:100%;height:100%}
+#prev{touch-action:none}
+footer{grid-area:bottom;display:flex;align-items:center;gap:16px;background:#fff;border-radius:26px;padding:12px 18px;box-shadow:0 4px 0 rgba(43,35,64,.10)}
+#colors{display:flex;gap:7px;flex-wrap:wrap;flex:1}
+.sw{width:42px;height:42px;border-radius:50%;border:3px solid #fff;padding:0;box-shadow:0 0 0 2px #E8DCCB}
+.sw.on{box-shadow:0 0 0 4px var(--ink)}
+.div{width:3px;align-self:stretch;background:var(--line);border-radius:2px}
+#opts{display:flex;align-items:center;gap:10px;min-width:300px}
+#opts .lbl{font-size:15px;font-weight:600;color:var(--soft)}
+#opts .hint{font-size:18px;font-weight:500;color:var(--soft);max-width:300px}
+.opt{width:56px;height:56px;border-radius:18px;border:3px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center;padding:0}
+.opt.on{border-color:var(--ink);background:var(--pick)}
+.dot{display:block;border-radius:50%}
+.ov{position:fixed;inset:0;z-index:20;background:rgba(43,35,64,.55);display:none;align-items:center;justify-content:center;padding:24px}
+.ov.show{display:flex}
+.card{background:#fff;border-radius:36px;padding:28px 32px 32px;width:100%;max-width:1040px;max-height:100%;overflow:auto;display:flex;flex-direction:column;gap:20px;box-shadow:0 10px 0 rgba(43,35,64,.25)}
+.card h2{margin:0;font-size:38px;font-weight:700}
+.cardtop{display:flex;align-items:center;gap:16px}
+.cardtop h2{flex:1}
+.close{width:60px;height:60px;border-radius:20px;border:0;background:var(--bg);display:flex;align-items:center;justify-content:center}
+#pageGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px}
+.pg{border:4px solid var(--line);border-radius:26px;background:#fff;padding:12px 12px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:22px;font-weight:600}
+.pg.blank{border-style:dashed;border-color:#D9CCB8}
+.pg canvas{width:100%;aspect-ratio:4/3;height:auto}
+.center{align-items:center;text-align:center}
+#saveImg{max-width:100%;max-height:52vh;border-radius:22px;border:4px solid var(--line);-webkit-touch-callout:default;-webkit-user-select:auto;user-select:auto}
+.tip{display:flex;align-items:center;gap:12px;background:var(--bg);border-radius:18px;padding:12px 18px;font-size:20px;font-weight:500}
+.row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.big{height:62px;padding:0 28px;font-size:21px;border-radius:20px}
+.small{max-width:560px}
+@media (max-width:900px){
+  .brand b{font-size:24px}
+  .btn .t{display:none}
+  .btn{padding:0;width:56px;justify-content:center}
+  footer{flex-wrap:wrap}
+  .div{display:none}
+  #opts{min-width:0}
+}
+@media (max-height:700px){.tool{height:74px;width:84px;font-size:13px}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <svg width="48" height="48" viewBox="0 0 200 200" aria-hidden="true"><rect width="200" height="200" rx="44" fill="#3A6FF7"/><g fill="none" stroke-width="18" stroke-linecap="round"><path d="M38 140 A62 62 0 0 1 162 140" stroke="#FF4D4D"/><path d="M60 140 A40 40 0 0 1 140 140" stroke="#FFD60A"/><path d="M82 140 A18 18 0 0 1 118 140" stroke="#FFFFFF"/></g></svg>
+    <b>Paint Pad</b>
+  </div>
+  <button class="btn" id="undoBtn" type="button" aria-label="Undo"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg><span class="t">Undo</span></button>
+  <button class="btn" id="picsBtn" type="button" aria-label="Pictures"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/></svg><span class="t">Pictures</span></button>
+  <button class="btn go" id="saveBtn" type="button" aria-label="Save"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg><span class="t">Save</span></button>
+  <button class="btn sq" id="clearBtn" type="button" aria-label="Start over"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></button>
+</header>
+
+<nav id="tools" aria-label="Tools">
+  <button class="tool on" data-tool="paint" type="button"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 3l3 3-9 9-3-3z"/><path d="M9 12c-2 0-4 1.5-4 4 0 1.5-1 2.5-2 3 3 1 7 0 8-3"/></svg>Paint</button>
+  <button class="tool" data-tool="rainbow" type="button"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M2.5 18a9.5 9.5 0 0 1 19 0" stroke="#FF4D4D"/><path d="M6 18a6 6 0 0 1 12 0" stroke="#FFB000"/><path d="M9.5 18a2.5 2.5 0 0 1 5 0" stroke="#3A6FF7"/></svg>Rainbow</button>
+  <button class="tool" data-tool="fill" type="button"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l7-7 7 7-7 7z"/><path d="M4 11h14"/><path d="M20 14s2 2.5 2 4a2 2 0 0 1-4 0c0-1.5 2-4 2-4z"/></svg>Fill</button>
+  <button class="tool" data-tool="shapes" type="button"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="5"/><rect x="11" y="11" width="10" height="10" rx="1.5"/></svg>Shapes</button>
+  <button class="tool" data-tool="stickers" type="button"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><polygon points="12,2 15,8 22,9 16,13 18,20 12,16 6,20 8,13 2,9 9,8"/></svg>Stickers</button>
+  <button class="tool" data-tool="eraser" type="button"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 20h12"/><path d="M4 15l9-9 6 6-7 7H8z"/><path d="M9 10l6 6"/></svg>Eraser</button>
+</nav>
+
+<main id="stage">
+  <div id="paper">
+    <canvas id="paint"></canvas>
+    <canvas id="lines"></canvas>
+    <canvas id="prev" aria-label="Drawing paper"></canvas>
+  </div>
+</main>
+
+<footer>
+  <div id="colors" role="group" aria-label="Colors"></div>
+  <div class="div"></div>
+  <div id="opts"></div>
+</footer>
+
+<div class="ov" id="picsOv">
+  <div class="card">
+    <div class="cardtop"><h2>Pick a picture to color</h2><button class="close" type="button" data-close aria-label="Close"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg></button></div>
+    <div id="pageGrid"></div>
+  </div>
+</div>
+
+<div class="ov" id="saveOv">
+  <div class="card center small" style="max-width:760px">
+    <h2>Great picture!</h2>
+    <img id="saveImg" alt="Your picture">
+    <div class="tip"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11V5a2 2 0 0 1 4 0v6"/><path d="M13 10a2 2 0 0 1 4 0v1a2 2 0 0 1 4 0v4a7 7 0 0 1-7 7h-1a7 7 0 0 1-6-3l-3-5a2 2 0 0 1 3.4-2L9 14"/></svg><span id="saveTip">Press and hold your picture, then tap Save to Photos.</span></div>
+    <div class="row">
+      <button class="btn go big" type="button" id="shareBtn" hidden>Save to Photos</button>
+      <button class="btn big" type="button" data-close>Keep painting</button>
+      <button class="btn big" type="button" id="newFromSave">New picture</button>
+    </div>
+  </div>
+</div>
+
+<div class="ov" id="clearOv">
+  <div class="card center small">
+    <h2>Start over?</h2>
+    <div style="font-size:20px;color:var(--soft)">This wipes the paint off this picture.</div>
+    <div class="row">
+      <button class="btn big" type="button" style="background:#FF4D4D;color:#fff;box-shadow:0 4px 0 rgba(140,20,20,.35)" id="clearYes">Yes, start over</button>
+      <button class="btn big" type="button" data-close>No, keep it</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+'use strict';
+const W = 1600, H = 1200;          // drawing paper, 4:3
+const LINE = '#1F1A2E';
+const $ = (s) => document.querySelector(s);
+const paint = $('#paint'), lines = $('#lines'), prev = $('#prev');
+[paint, lines, prev].forEach((c) => { c.width = W; c.height = H; });
+const pc = paint.getContext('2d', { willReadFrequently: true });
+const lc = lines.getContext('2d', { willReadFrequently: true });
+const vc = prev.getContext('2d');
+
+/* ---------- small shape builders, in a 200 x 150 coloring-page space ---------- */
+const C = (cx, cy, r) => `M${cx - r} ${cy}A${r} ${r} 0 1 0 ${cx + r} ${cy}A${r} ${r} 0 1 0 ${cx - r} ${cy}Z`;
+const E = (cx, cy, rx, ry, deg = 0) => {
+  const a = deg * Math.PI / 180, dx = rx * Math.cos(a), dy = rx * Math.sin(a);
+  return `M${cx + dx} ${cy + dy}A${rx} ${ry} ${deg} 1 0 ${cx - dx} ${cy - dy}A${rx} ${ry} ${deg} 1 0 ${cx + dx} ${cy + dy}Z`;
+};
+const R = (x, y, w, h) => `M${x} ${y}h${w}v${h}h${-w}Z`;
+const P = (s) => 'M' + s.trim().split(/\s+/).join('L') + 'Z';
+
+const PAGES = [
+  { name: 'Blank page', paths: [] },
+  { name: 'House', paths: ['M-5 132 Q100 124 205 132', R(55, 70, 80, 60), P('45,72 95,32 145,72'), R(85, 95, 20, 35), R(62, 82, 16, 14), R(112, 82, 16, 14), R(115, 38, 12, 22), C(170, 30, 14), 'M163 113 V131', C(165, 100, 16)] },
+  { name: 'Fish', paths: ['M-5 136 Q100 128 205 136', P('140,75 180,45 172,75 180,105'), E(95, 75, 52, 34), C(70, 66, 7), C(71, 66, 2.5), 'M110 43 Q120 75 110 107', 'M126 47 Q134 75 126 103', E(98, 84, 14, 7), C(35, 35, 6), C(25, 18, 4), C(40, 8, 3), 'M188 136 Q180 120 188 105 T188 80', 'M12 136 Q20 122 12 108 T12 88'] },
+  { name: 'Flower', paths: ['M-5 140 Q100 134 205 140', 'M100 76 Q95 105 100 140', 'M99 112 Q78 96 66 110 Q82 122 99 112Z', 'M100 124 Q122 108 134 122 Q118 134 100 124Z', C(100, 22, 16), C(124, 40, 16), C(76, 40, 16), C(115, 64, 16), C(85, 64, 16), C(100, 44, 12), C(28, 28, 14)] },
+  { name: 'Rocket', paths: ['M86 112 V58 Q86 30 100 12 Q114 30 114 58 V112 Z', 'M86 50 H114', C(100, 66, 10), P('86,92 68,120 86,112'), P('114,92 132,120 114,112'), 'M92 112 Q100 145 108 112', P('40,40 44,50 54,50 46,56 49,66 40,60 31,66 34,56 26,50 36,50'), C(165, 45, 16), E(165, 45, 28, 7, -20), P('160,110 163,117 170,117 165,121 167,128 160,124 153,128 155,121 150,117 157,117')] },
+  { name: 'Butterfly', paths: [E(68, 58, 34, 26, -25), E(132, 58, 34, 26, 25), E(74, 104, 24, 18, 25), E(126, 104, 24, 18, -25), C(62, 56, 9), C(138, 56, 9), C(74, 104, 6), C(126, 104, 6), E(100, 80, 8, 44), 'M96 38 Q88 20 80 18', 'M104 38 Q112 20 120 18', C(79, 18, 3), C(121, 18, 3)] },
+  { name: 'Car', paths: ['M-5 130 H205', 'M35 70 H165 Q175 70 175 80 V100 Q175 110 165 110 H35 Q25 110 25 100 V80 Q25 70 35 70 Z', 'M55 70 L72 42 H128 L145 70', 'M100 42 V70', C(60, 110, 16), C(140, 110, 16), C(60, 110, 6), C(140, 110, 6), C(166, 84, 4), 'M20 30 Q30 18 42 26 Q52 14 64 26 Q76 26 72 36 H22 Q12 36 20 30Z'] },
+  { name: 'Cat', paths: [P('62,52 66,14 92,40'), P('138,52 134,14 108,40'), C(100, 75, 45), E(82, 68, 7, 9), E(118, 68, 7, 9), P('94,86 106,86 100,94'), 'M100 94 Q92 102 86 98', 'M100 94 Q108 102 114 98', 'M58 88 H34', 'M58 96 L36 104', 'M142 88 H166', 'M142 96 L164 104'] }
+];
+
+function drawPage(ctx, page, scale, lw) {
+  ctx.save();
+  ctx.scale(scale, scale);
+  ctx.lineWidth = lw;
+  ctx.strokeStyle = LINE;
+  ctx.lineJoin = 'round';
+  ctx.lineCap = 'round';
+  page.paths.forEach((d) => ctx.stroke(new Path2D(d)));
+  ctx.restore();
+}
+
+/* ---------- shapes and stickers, in a 24 x 24 icon space ---------- */
+const SHAPES = {
+  circle: 'M2 12A10 10 0 1 0 22 12A10 10 0 1 0 2 12Z',
+  square: 'M2 2H22V22H2Z',
+  triangle: 'M12 2L22.5 21H1.5Z',
+  star: 'M12 1.5L15 8L22.5 9L16.5 13.5L18.5 21L12 16.5L5.5 21L7.5 13.5L1.5 9L9 8Z',
+  heart: 'M12 21.5C-2 12 6 1.5 12 8.5C18 1.5 26 12 12 21.5Z'
+};
+const STICKERS = {
+  star: [{ d: SHAPES.star, fill: '#FFD60A', stroke: '#E0A800' }],
+  heart: [{ d: SHAPES.heart, fill: '#FF70A6', stroke: '#E0457F' }],
+  sun: [{ d: 'M12 1V4M12 20V23M1 12H4M20 12H23M4.2 4.2L6.3 6.3M17.7 17.7L19.8 19.8M19.8 4.2L17.7 6.3M6.3 17.7L4.2 19.8', stroke: '#FF9F1C', w: 2.2 }, { d: 'M6 12A6 6 0 1 0 18 12A6 6 0 1 0 6 12Z', fill: '#FFD60A', stroke: '#FF9F1C' }],
+  flower: [{ d: [C(12, 6, 4), C(18, 11, 4), C(6, 11, 4), C(15.5, 18, 4), C(8.5, 18, 4)].join(''), fill: '#8E5CF7' }, { d: C(12, 12.5, 3), fill: '#FFD60A' }],
+  moon: [{ d: 'M20 15.5A8.5 8.5 0 1 1 9 3.5A7 7 0 0 0 20 15.5Z', fill: '#4CC9F0', stroke: '#2A9BC4' }],
+  rainbow: [{ d: 'M2 19A10 10 0 0 1 22 19', stroke: '#FF4D4D', w: 2.6 }, { d: 'M5 19A7 7 0 0 1 19 19', stroke: '#FFD60A', w: 2.6 }, { d: 'M8 19A4 4 0 0 1 16 19', stroke: '#3A6FF7', w: 2.6 }]
+};
+const pathCache = {};
+const p2d = (d) => pathCache[d] || (pathCache[d] = new Path2D(d));
+
+function drawIcon(ctx, parts, cx, cy, r, color) {
+  const s = r / 11;
+  ctx.save();
+  ctx.translate(cx - 12 * s, cy - 12 * s);
+  ctx.scale(s, s);
+  ctx.lineJoin = 'round';
+  ctx.lineCap = 'round';
+  parts.forEach((p) => {
+    const path = p2d(p.d);
+    if (p.fill || color) { ctx.fillStyle = color || p.fill; if (!p.w) ctx.fill(path); }
+    if (p.stroke) { ctx.strokeStyle = p.stroke; ctx.lineWidth = p.w || 1; ctx.stroke(path); }
+  });
+  ctx.restore();
+}
+
+function iconSvg(parts, color, size) {
+  const els = parts.map((p) => {
+    const f = p.w ? 'none' : (color || p.fill || 'none');
+    const st = p.stroke ? ` stroke="${p.stroke}" stroke-width="${p.w || 1}" stroke-linecap="round" stroke-linejoin="round"` : '';
+    return `<path d="${p.d}" fill="${f}"${st}/>`;
+  }).join('');
+  return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" aria-hidden="true">${els}</svg>`;
+}
+
+/* ---------- state ---------- */
+const PALETTE = [
+  ['Red', '#FF4D4D'], ['Orange', '#FF9F1C'], ['Yellow', '#FFD60A'], ['Lime', '#8AC926'], ['Green', '#2A9D55'],
+  ['Teal', '#2EC4B6'], ['Sky blue', '#4CC9F0'], ['Blue', '#3A6FF7'], ['Purple', '#8E5CF7'], ['Pink', '#FF70A6'],
+  ['Brown', '#9C6644'], ['Peach', '#FFCFA3'], ['Gray', '#8D8D99'], ['Black', '#222222'], ['White', '#FFFFFF']
+];
+const SIZES = [{ w: 10, d: 12, label: 'Small' }, { w: 26, d: 22, label: 'Medium' }, { w: 52, d: 36, label: 'Big' }];
+const S = { tool: 'paint', color: '#FF4D4D', size: 1, shape: 'circle', sticker: 'star', page: 0 };
+let LD = null;                      // pixel data of the outline layer, used as walls for Fill
+const undoStack = [];
+const UNDO_MAX = 15;
+
+function store(k, v) { try { localStorage.setItem('paintpad.' + k, v); } catch (e) {} }
+function load(k) { try { return localStorage.getItem('paintpad.' + k); } catch (e) { return null; } }
+
+/* ---------- layout ---------- */
+const paper = $('#paper'), stage = $('#stage');
+function fit() {
+  const w = stage.clientWidth, h = stage.clientHeight;
+  const s = Math.min(w / W, h / H);
+  paper.style.width = Math.floor(W * s) + 'px';
+  paper.style.height = Math.floor(H * s) + 'px';
+}
+window.addEventListener('resize', fit);
+window.addEventListener('orientationchange', () => setTimeout(fit, 250));
+if (window.ResizeObserver) new ResizeObserver(fit).observe(stage);
+
+/* ---------- toolbar UI ---------- */
+const colorsEl = $('#colors'), optsEl = $('#opts');
+PALETTE.forEach(([name, hex]) => {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'sw' + (hex === S.color ? ' on' : '');
+  b.style.background = hex;
+  b.setAttribute('aria-label', name);
+  b.dataset.hex = hex;
+  b.addEventListener('click', () => {
+    S.color = hex;
+    colorsEl.querySelectorAll('.sw').forEach((x) => x.classList.toggle('on', x.dataset.hex === hex));
+    if (S.tool === 'eraser' || S.tool === 'rainbow' || S.tool === 'stickers') setTool('paint');
+    else renderOpts();
+  });
+  colorsEl.appendChild(b);
+});
+
+document.querySelectorAll('.tool').forEach((b) => b.addEventListener('click', () => setTool(b.dataset.tool)));
+function setTool(t) {
+  S.tool = t;
+  document.querySelectorAll('.tool').forEach((x) => x.classList.toggle('on', x.dataset.tool === t));
+  renderOpts();
+}
+
+function renderOpts() {
+  const t = S.tool;
+  let html = '';
+  if (t === 'paint' || t === 'rainbow' || t === 'eraser') {
+    const dot = t === 'eraser' ? '#C9BFB0' : t === 'rainbow' ? '#8E5CF7' : (S.color === '#FFFFFF' ? '#E8DCCB' : S.color);
+    html = '<span class="lbl">Size</span>' + SIZES.map((s, i) =>
+      `<button type="button" class="opt${i === S.size ? ' on' : ''}" data-size="${i}" aria-label="${s.label}"><span class="dot" style="width:${s.d}px;height:${s.d}px;background:${dot}"></span></button>`).join('');
+  } else if (t === 'shapes') {
+    html = Object.keys(SHAPES).map((k) =>
+      `<button type="button" class="opt${k === S.shape ? ' on' : ''}" data-shape="${k}" aria-label="${k}">${iconSvg([{ d: SHAPES[k] }], S.color === '#FFFFFF' ? '#E8DCCB' : S.color, 30)}</button>`).join('');
+  } else if (t === 'stickers') {
+    html = Object.keys(STICKERS).map((k) =>
+      `<button type="button" class="opt${k === S.sticker ? ' on' : ''}" data-sticker="${k}" aria-label="${k} sticker">${iconSvg(STICKERS[k], null, 34)}</button>`).join('');
+  } else if (t === 'fill') {
+    html = '<span class="hint">Tap any space to fill it with your color.</span>';
+  }
+  optsEl.innerHTML = html;
+}
+optsEl.addEventListener('click', (e) => {
+  const b = e.target.closest('button');
+  if (!b) return;
+  if (b.dataset.size) S.size = +b.dataset.size;
+  if (b.dataset.shape) S.shape = b.dataset.shape;
+  if (b.dataset.sticker) S.sticker = b.dataset.sticker;
+  renderOpts();
+});
+
+/* ---------- paper ---------- */
+function whitePaper() { pc.fillStyle = '#FFFFFF'; pc.fillRect(0, 0, W, H); }
+function setPage(i) {
+  S.page = i;
+  lc.clearRect(0, 0, W, H);
+  drawPage(lc, PAGES[i], W / 200, 1.3);
+  LD = lc.getImageData(0, 0, W, H).data;
+  store('page', String(i));
+}
+function snap() {
+  try {
+    undoStack.push(pc.getImageData(0, 0, W, H));
+    if (undoStack.length > UNDO_MAX) undoStack.shift();
+  } catch (e) {}
+  $('#undoBtn').disabled = false;
+}
+function undo() {
+  const d = undoStack.pop();
+  if (d) { pc.putImageData(d, 0, 0); persist(); }
+  $('#undoBtn').disabled = undoStack.length === 0;
+}
+let persistTimer = 0;
+function persist() {
+  clearTimeout(persistTimer);
+  persistTimer = setTimeout(() => store('paint', paint.toDataURL('image/png')), 700);
+}
+
+/* ---------- drawing ---------- */
+const posOf = (e) => {
+  const r = prev.getBoundingClientRect();
+  return { x: (e.clientX - r.left) * W / r.width, y: (e.clientY - r.top) * H / r.height };
+};
+let active = null, last = null, mid = null, start = null, lastP = null, hue = 0;
+
+function brushStyle() {
+  const s = SIZES[S.size];
+  pc.lineCap = 'round';
+  pc.lineJoin = 'round';
+  pc.lineWidth = S.tool === 'eraser' ? s.w * 1.8 : s.w;
+  const col = S.tool === 'eraser' ? '#FFFFFF' : S.tool === 'rainbow' ? `hsl(${hue},90%,55%)` : S.color;
+  pc.strokeStyle = col;
+  pc.fillStyle = col;
+}
+function seg(p) {
+  const dx = p.x - last.x, dy = p.y - last.y;
+  if (dx * dx + dy * dy < 2) return;
+  const m = { x: (last.x + p.x) / 2, y: (last.y + p.y) / 2 };
+  if (S.tool === 'rainbow') { hue = (hue + 3) % 360; pc.strokeStyle = `hsl(${hue},90%,55%)`; }
+  pc.beginPath();
+  pc.moveTo(mid.x, mid.y);
+  pc.quadraticCurveTo(last.x, last.y, m.x, m.y);
+  pc.stroke();
+  mid = m;
+  last = p;
+}
+function itemRadius(p) {
+  const base = 70;
+  if (!p) return base;
+  return Math.max(base, Math.hypot(p.x - start.x, p.y - start.y));
+}
+function drawItem(ctx, p) {
+  const r = itemRadius(p);
+  if (S.tool === 'shapes') drawIcon(ctx, [{ d: SHAPES[S.shape] }], start.x, start.y, r, S.color);
+  else drawIcon(ctx, STICKERS[S.sticker], start.x, start.y, r, null);
+}
+const isBrush = () => S.tool === 'paint' || S.tool === 'rainbow' || S.tool === 'eraser';
+
+prev.addEventListener('pointerdown', (e) => {
+  if (active !== null) return;          // one finger at a time; ignores a resting palm
+  e.preventDefault();
+  const p = posOf(e);
+  if (S.tool === 'fill') {
+    snap();
+    flood(Math.round(p.x), Math.round(p.y), S.color);
+    persist();
+    return;
+  }
+  active = e.pointerId;
+  try { prev.setPointerCapture(e.pointerId); } catch (err) {}
+  snap();
+  start = p; lastP = p;
+  if (isBrush()) {
+    brushStyle();
+    last = p; mid = p;
+    pc.beginPath();
+    pc.arc(p.x, p.y, pc.lineWidth / 2, 0, Math.PI * 2);
+    pc.fill();
+  } else {
+    vc.clearRect(0, 0, W, H);
+    vc.globalAlpha = 0.75;
+    drawItem(vc, null);
+    vc.globalAlpha = 1;
+  }
+});
+prev.addEventListener('pointermove', (e) => {
+  if (e.pointerId !== active) return;
+  e.preventDefault();
+  if (isBrush()) {
+    const evs = e.getCoalescedEvents ? e.getCoalescedEvents() : [];
+    (evs.length ? evs : [e]).forEach((ev) => seg(posOf(ev)));
+  } else {
+    lastP = posOf(e);
+    vc.clearRect(0, 0, W, H);
+    vc.globalAlpha = 0.75;
+    drawItem(vc, lastP);
+    vc.globalAlpha = 1;
+  }
+});
+function endStroke(e) {
+  if (e.pointerId !== active) return;
+  active = null;
+  if (isBrush()) {
+    if (last && mid) { pc.beginPath(); pc.moveTo(mid.x, mid.y); pc.lineTo(last.x, last.y); pc.stroke(); }
+  } else {
+    vc.clearRect(0, 0, W, H);
+    drawItem(pc, lastP);
+  }
+  persist();
+}
+prev.addEventListener('pointerup', endStroke);
+prev.addEventListener('pointercancel', endStroke);
+['gesturestart', 'gesturechange', 'touchmove'].forEach((ev) =>
+  document.addEventListener(ev, (e) => { if (!e.target.closest || !e.target.closest('.card')) e.preventDefault(); }, { passive: false }));
+
+/* ---------- fill bucket ---------- */
+function hexRgb(h) { const n = parseInt(h.slice(1), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; }
+function flood(sx, sy, hex) {
+  if (sx < 0 || sy < 0 || sx >= W || sy >= H) return;
+  const img = pc.getImageData(0, 0, W, H), d = img.data, N = W * H;
+  const wall = (p) => LD !== null && LD[p * 4 + 3] > 110;
+  let p0 = sy * W + sx;
+  if (wall(p0)) {                        // tapped right on a line: nudge to the nearest open pixel
+    let found = -1;
+    for (let r = 1; r <= 14 && found < 0; r++) {
+      for (let a = 0; a < 16 && found < 0; a++) {
+        const x = Math.round(sx + r * Math.cos(a * Math.PI / 8)), y = Math.round(sy + r * Math.sin(a * Math.PI / 8));
+        if (x >= 0 && y >= 0 && x < W && y < H && !wall(y * W + x)) found = y * W + x;
+      }
+    }
+    if (found < 0) return;
+    p0 = found; sx = p0 % W; sy = (p0 / W) | 0;
+  }
+  const [r, g, b] = hexRgb(hex);
+  const i0 = p0 * 4, sr = d[i0], sg = d[i0 + 1], sb = d[i0 + 2];
+  if (Math.abs(sr - r) + Math.abs(sg - g) + Math.abs(sb - b) < 6) return;
+  const TOL = 96;
+  const seen = new Uint8Array(N);
+  const ok = (p) => {
+    if (seen[p] || wall(p)) return false;
+    const i = p * 4;
+    return Math.abs(d[i] - sr) + Math.abs(d[i + 1] - sg) + Math.abs(d[i + 2] - sb) <= TOL;
+  };
+  const stack = [sx, sy];
+  while (stack.length) {
+    const y = stack.pop();
+    let x = stack.pop();
+    let p = y * W + x;
+    if (!ok(p)) continue;
+    while (x > 0 && ok(p - 1)) { x--; p--; }
+    let up = false, dn = false;
+    while (x < W && ok(p)) {
+      seen[p] = 1;
+      if (y > 0) { if (ok(p - W)) { if (!up) { stack.push(x, y - 1); up = true; } } else up = false; }
+      if (y < H - 1) { if (ok(p + W)) { if (!dn) { stack.push(x, y + 1); dn = true; } } else dn = false; }
+      x++; p++;
+    }
+  }
+  // grow the fill by 2px so no white fringe shows against lines and strokes
+  for (let pass = 0; pass < 2; pass++) {
+    const mark = pass + 2;
+    for (let p = 0; p < N; p++) {
+      if (seen[p] === 0 || seen[p] === mark) continue;
+      const x = p % W;
+      if (x > 0 && !seen[p - 1]) seen[p - 1] = mark;
+      if (x < W - 1 && !seen[p + 1]) seen[p + 1] = mark;
+      if (p >= W && !seen[p - W]) seen[p - W] = mark;
+      if (p < N - W && !seen[p + W]) seen[p + W] = mark;
+    }
+  }
+  for (let p = 0; p < N; p++) {
+    if (seen[p]) { const i = p * 4; d[i] = r; d[i + 1] = g; d[i + 2] = b; d[i + 3] = 255; }
+  }
+  pc.putImageData(img, 0, 0);
+}
+
+/* ---------- overlays ---------- */
+function show(id) { $(id).classList.add('show'); }
+function hideAll() { document.querySelectorAll('.ov').forEach((o) => o.classList.remove('show')); }
+document.querySelectorAll('[data-close]').forEach((b) => b.addEventListener('click', hideAll));
+document.querySelectorAll('.ov').forEach((o) => o.addEventListener('click', (e) => { if (e.target === o) hideAll(); }));
+
+const grid = $('#pageGrid');
+PAGES.forEach((pg, i) => {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'pg' + (i === 0 ? ' blank' : '');
+  const c = document.createElement('canvas');
+  c.width = 400; c.height = 300;
+  const x = c.getContext('2d');
+  if (i === 0) {
+    x.strokeStyle = '#B5A88F'; x.lineWidth = 10; x.lineCap = 'round';
+    x.beginPath(); x.moveTo(200, 100); x.lineTo(200, 200); x.moveTo(150, 150); x.lineTo(250, 150); x.stroke();
+  } else drawPage(x, pg, 2, 2.2);
+  b.appendChild(c);
+  b.appendChild(document.createTextNode(pg.name));
+  b.addEventListener('click', () => newPicture(i));
+  grid.appendChild(b);
+});
+function newPicture(i) {
+  whitePaper();
+  setPage(i);
+  undoStack.length = 0;
+  $('#undoBtn').disabled = true;
+  persist();
+  hideAll();
+}
+
+$('#picsBtn').addEventListener('click', () => show('#picsOv'));
+$('#clearBtn').addEventListener('click', () => show('#clearOv'));
+$('#clearYes').addEventListener('click', () => { snap(); whitePaper(); persist(); hideAll(); });
+$('#undoBtn').addEventListener('click', undo);
+$('#newFromSave').addEventListener('click', () => { hideAll(); show('#picsOv'); });
+
+let shareFile = null;
+$('#saveBtn').addEventListener('click', () => {
+  const c = document.createElement('canvas');
+  c.width = W; c.height = H;
+  const x = c.getContext('2d');
+  x.drawImage(paint, 0, 0);
+  x.drawImage(lines, 0, 0);
+  $('#saveImg').src = c.toDataURL('image/png');
+  shareFile = null;
+  $('#shareBtn').hidden = true;
+  $('#saveTip').textContent = 'Press and hold your picture, then tap Save to Photos.';
+  if (navigator.canShare && window.File) {
+    c.toBlob((blob) => {
+      if (!blob) return;
+      const f = new File([blob], 'paint-pad-picture.png', { type: 'image/png' });
+      if (navigator.canShare({ files: [f] })) {
+        shareFile = f;
+        $('#shareBtn').hidden = false;
+        $('#saveTip').textContent = 'Tap Save to Photos, or press and hold your picture.';
+      }
+    }, 'image/png');
+  }
+  show('#saveOv');
+});
+$('#shareBtn').addEventListener('click', async () => {
+  if (!shareFile) return;
+  try { await navigator.share({ files: [shareFile], title: 'My picture' }); } catch (e) {}
+});
+
+/* ---------- start ---------- */
+whitePaper();
+const savedPage = parseInt(load('page') || '0', 10);
+setPage(savedPage >= 0 && savedPage < PAGES.length ? savedPage : 0);
+const savedPaint = load('paint');
+if (savedPaint) {
+  const im = new Image();
+  im.onload = () => pc.drawImage(im, 0, 0, W, H);
+  im.src = savedPaint;
+}
+$('#undoBtn').disabled = true;
+renderOpts();
+fit();
+})();
+</script>
+</body>
+</html>
