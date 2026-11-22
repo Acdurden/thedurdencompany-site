@@ -1,20 +1,28 @@
 // Paint Pad offline support.
 // On first visit this saves the whole app (page, icons, font) on the iPad.
+// Everything is served from this site; nothing comes from anywhere else.
 // After that the app opens and works with no connection at all.
 // Bump VERSION whenever any file in this folder changes, so iPads pick up the update.
-const VERSION = 'paintpad-v2';
+const VERSION = 'paintpad-v3';
 const CORE = [
   './',
   './index.html',
   './manifest.webmanifest',
   './apple-touch-icon.png',
   './icon-192.png',
-  './icon-512.png'
+  './icon-512.png',
+  './fonts/fredoka-latin-400-normal.woff2',
+  './fonts/fredoka-latin-500-normal.woff2',
+  './fonts/fredoka-latin-600-normal.woff2',
+  './fonts/fredoka-latin-700-normal.woff2'
 ];
-const FONT_HOSTS = ['fonts.googleapis.com', 'fonts.gstatic.com'];
 
 self.addEventListener('install', (event) => {
-  event.waitUntil(caches.open(VERSION).then((c) => c.addAll(CORE)).then(() => self.skipWaiting()));
+  event.waitUntil(
+    caches.open(VERSION)
+      .then((c) => c.addAll(CORE))
+      .then(() => self.skipWaiting())
+  );
 });
 
 self.addEventListener('activate', (event) => {
@@ -70,7 +78,7 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(req.url);
   if (req.mode === 'navigate') {
     event.respondWith(networkFirst(req, './index.html'));
-  } else if (url.origin === self.location.origin || FONT_HOSTS.includes(url.hostname)) {
+  } else if (url.origin === self.location.origin) {
     event.respondWith(cacheFirst(req));
   }
 });

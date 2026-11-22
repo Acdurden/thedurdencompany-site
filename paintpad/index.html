@@ -11,11 +11,13 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap">
 <title>Paint Pad</title>
 <style>
+/* Fredoka font, stored with the app (SIL Open Font License, see fonts/OFL-LICENSE.txt) */
+@font-face{font-family:'Fredoka';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/fredoka-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Fredoka';font-style:normal;font-weight:500;font-display:swap;src:url(fonts/fredoka-latin-500-normal.woff2) format('woff2')}
+@font-face{font-family:'Fredoka';font-style:normal;font-weight:600;font-display:swap;src:url(fonts/fredoka-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:'Fredoka';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/fredoka-latin-700-normal.woff2) format('woff2')}
 :root{--ink:#2B2340;--soft:#5B5170;--bg:#FFF4E6;--line:#F1E6D6;--pick:#FFE9A8}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;height:100%;overflow:hidden;overscroll-behavior:none;background:var(--bg)}
@@ -33,7 +35,7 @@ body{
 button{font-family:inherit;color:var(--ink);cursor:pointer;touch-action:manipulation;-webkit-appearance:none;appearance:none}
 svg{display:block}
 header{grid-area:top;display:flex;align-items:center;gap:12px;min-height:56px}
-.brand{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
+.brand{display:flex;align-items:center;gap:12px;flex:1;min-width:0;border:0;background:none;padding:0;text-align:left;font:inherit;color:inherit;cursor:default}
 .brand b{font-size:30px;font-weight:700;letter-spacing:.5px;white-space:nowrap}
 .btn{height:56px;padding:0 18px;border:0;border-radius:18px;background:#fff;box-shadow:0 3px 0 rgba(43,35,64,.14);display:flex;align-items:center;gap:8px;font-size:18px;font-weight:600}
 .btn:active,.tool:active,.opt:active,.sw:active{transform:translateY(2px)}
@@ -64,6 +66,15 @@ footer{grid-area:bottom;display:flex;align-items:center;gap:16px;background:#fff
 .card h2{margin:0;font-size:38px;font-weight:700}
 .cardtop{display:flex;align-items:center;gap:16px}
 .cardtop h2{flex:1}
+.hold{position:relative;overflow:hidden}
+.hold::after{content:'';position:absolute;left:0;bottom:0;height:7px;width:calc(var(--p,0) * 100%);background:#FF4D4D;border-radius:0 4px 4px 0}
+#bubble{position:fixed;z-index:40;background:var(--ink);color:#fff;border-radius:14px;padding:9px 15px;font-size:17px;font-weight:500;pointer-events:none;opacity:0;transition:opacity .2s;white-space:nowrap}
+#bubble.show{opacity:1}
+.who{display:grid;grid-template-columns:1fr 1fr;gap:18px;width:100%}
+.kid{height:170px;border-radius:30px;border:0;font-size:42px;font-weight:700;color:#fff !important;box-shadow:0 6px 0 rgba(0,0,0,.2)}
+.kid:active{transform:translateY(3px)}
+.setrow{display:flex;gap:14px;justify-content:center;align-items:center;font-size:20px;font-weight:500}
+.fine{font-size:15px;color:var(--soft)}
 .close{width:60px;height:60px;border-radius:20px;border:0;background:var(--bg);display:flex;align-items:center;justify-content:center}
 #pageGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px}
 .pg{border:4px solid var(--line);border-radius:26px;background:#fff;padding:12px 12px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:22px;font-weight:600}
@@ -89,14 +100,14 @@ footer{grid-area:bottom;display:flex;align-items:center;gap:16px;background:#fff
 <body>
 
 <header>
-  <div class="brand">
+  <button class="brand" id="brand" type="button" aria-label="Paint Pad. Grown-ups: press and hold for settings">
     <svg width="48" height="48" viewBox="0 0 200 200" aria-hidden="true"><rect width="200" height="200" rx="44" fill="#3A6FF7"/><g fill="none" stroke-width="18" stroke-linecap="round"><path d="M38 140 A62 62 0 0 1 162 140" stroke="#FF4D4D"/><path d="M60 140 A40 40 0 0 1 140 140" stroke="#FFD60A"/><path d="M82 140 A18 18 0 0 1 118 140" stroke="#FFFFFF"/></g></svg>
-    <b>Paint Pad</b>
-  </div>
+    <b id="title">Paint Pad</b>
+  </button>
   <button class="btn" id="undoBtn" type="button" aria-label="Undo"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg><span class="t">Undo</span></button>
   <button class="btn" id="picsBtn" type="button" aria-label="Pictures"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/></svg><span class="t">Pictures</span></button>
   <button class="btn go" id="saveBtn" type="button" aria-label="Save"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg><span class="t">Save</span></button>
-  <button class="btn sq" id="clearBtn" type="button" aria-label="Start over"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></button>
+  <button class="btn sq hold" id="clearBtn" type="button" aria-label="Start over"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></button>
 </header>
 
 <nav id="tools" aria-label="Tools">
@@ -137,26 +148,46 @@ footer{grid-area:bottom;display:flex;align-items:center;gap:16px;background:#fff
     <div class="row">
       <button class="btn go big" type="button" id="shareBtn" hidden>Save to Photos</button>
       <button class="btn big" type="button" data-close>Keep painting</button>
-      <button class="btn big" type="button" id="newFromSave">New picture</button>
+      <button class="btn big hold" type="button" id="newFromSave">New picture</button>
     </div>
   </div>
 </div>
 
-<div class="ov" id="clearOv">
+<div class="ov" id="whoOv">
   <div class="card center small">
-    <h2>Start over?</h2>
-    <div style="font-size:20px;color:var(--soft)">This wipes the paint off this picture.</div>
-    <div class="row">
-      <button class="btn big" type="button" style="background:#FF4D4D;color:#fff;box-shadow:0 4px 0 rgba(140,20,20,.35)" id="clearYes">Yes, start over</button>
-      <button class="btn big" type="button" data-close>No, keep it</button>
+    <h2>Who's painting?</h2>
+    <div class="who">
+      <button class="kid" type="button" data-kid="Adeline" style="background:#FF70A6">Adeline</button>
+      <button class="kid" type="button" data-kid="Pierce" style="background:#3A6FF7">Pierce</button>
     </div>
+    <div class="setrow"><span>Sounds</span><button class="btn" type="button" id="soundBtn">On</button></div>
+    <div class="fine">Grown-ups: press and hold the name at the top for 2 seconds to come back here.</div>
   </div>
 </div>
+
+<div id="bubble" role="status"></div>
 
 <script>
 (() => {
 'use strict';
-const W = 1600, H = 1200;          // drawing paper, 4:3
+// The paper fills the drawing area of a landscape iPad. Its shape is worked out once
+// and remembered, so a picture never gets squashed when the iPad is turned.
+const H = 1200;
+const W = (() => {
+  let a = NaN;
+  try { a = parseFloat(localStorage.getItem('paintpad.aspect')); } catch (e) {}
+  if (!(a >= 4 / 3 && a <= 2.3)) {
+    const r = document.getElementById('stage').getBoundingClientRect();
+    if (r.width >= r.height && r.height > 0) a = r.width / r.height;
+    else {
+      const long = Math.max(screen.width, screen.height), short = Math.min(screen.width, screen.height);
+      a = (long - 160) / (short - 200);   // tool rail, header and color bar taken out
+    }
+    a = Math.min(2.3, Math.max(4 / 3, a));
+    try { localStorage.setItem('paintpad.aspect', a.toFixed(4)); } catch (e) {}
+  }
+  return Math.round(H * a);
+})();
 const LINE = '#1F1A2E';
 const $ = (s) => document.querySelector(s);
 const paint = $('#paint'), lines = $('#lines'), prev = $('#prev');
@@ -230,6 +261,29 @@ const PAGES = [
   { name: 'Cat', paths: [P('62,52 66,14 92,40'), P('138,52 134,14 108,40'), C(100, 75, 45), E(82, 68, 7, 9), E(118, 68, 7, 9), P('94,86 106,86 100,94'), 'M100 94 Q92 102 86 98', 'M100 94 Q108 102 114 98', 'M58 88 H34', 'M58 96 L36 104', 'M142 88 H166', 'M142 96 L164 104'] }
 ];
 
+// Coloring pages are drawn 4:3 in the middle of the wider paper. Ground and road
+// lines that run edge to edge on the 4:3 drawing are carried out to the paper's
+// edges, so the fill bucket still stops at them.
+function drawPageOnPaper(ctx, page) {
+  const s = H / 150, ox = (W - 200 * s) / 2;
+  ctx.save();
+  ctx.translate(ox, 0);
+  drawPage(ctx, page, s, 1.3);
+  ctx.restore();
+  ctx.save();
+  ctx.lineWidth = 1.3 * s; ctx.strokeStyle = LINE; ctx.lineCap = 'round';
+  page.paths.forEach((d) => {
+    if (!d.startsWith('M-5 ')) return;
+    const y0 = parseFloat(d.slice(4));
+    const nums = d.match(/-?\d+(\.\d+)?/g).map(Number);
+    const y1 = /H205$/.test(d) ? y0 : nums[nums.length - 1];
+    ctx.beginPath();
+    ctx.moveTo(0, y0 * s); ctx.lineTo(ox + (-5) * s, y0 * s);
+    ctx.moveTo(ox + 205 * s, y1 * s); ctx.lineTo(W, y1 * s);
+    ctx.stroke();
+  });
+  ctx.restore();
+}
 function drawPage(ctx, page, scale, lw) {
   ctx.save();
   ctx.scale(scale, scale);
@@ -294,7 +348,7 @@ const SIZES = [{ w: 10, d: 12, label: 'Small' }, { w: 26, d: 22, label: 'Medium'
 const S = { tool: 'paint', color: '#FF4D4D', size: 1, shape: 'circle', sticker: 'star', page: 0 };
 let LD = null;                      // pixel data of the outline layer, used as walls for Fill
 const undoStack = [];
-const UNDO_MAX = 15;
+const UNDO_MAX = 12;
 
 function store(k, v) { try { localStorage.setItem('paintpad.' + k, v); } catch (e) {} }
 function load(k) { try { return localStorage.getItem('paintpad.' + k); } catch (e) { return null; } }
@@ -311,6 +365,98 @@ window.addEventListener('resize', fit);
 window.addEventListener('orientationchange', () => setTimeout(fit, 250));
 if (window.ResizeObserver) new ResizeObserver(fit).observe(stage);
 
+/* ---------- sounds and voice (made in code, so they work offline) ---------- */
+let soundOn = load('sound') !== 'off';
+let AC = null;
+function audio() {
+  try {
+    if (!AC) { const Ctx = window.AudioContext || window.webkitAudioContext; if (!Ctx) return null; AC = new Ctx(); }
+    if (AC.state === 'suspended') AC.resume();
+  } catch (e) { return null; }
+  return AC;
+}
+function tone(f1, f2, dur, type, vol, delay) {
+  const a = audio(); if (!a) return;
+  const t = a.currentTime + (delay || 0);
+  const o = a.createOscillator(), g = a.createGain();
+  o.type = type || 'sine';
+  o.frequency.setValueAtTime(f1, t);
+  o.frequency.exponentialRampToValueAtTime(f2, t + dur);
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(vol || 0.2, t + 0.012);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  o.connect(g); g.connect(a.destination);
+  o.start(t); o.stop(t + dur + 0.03);
+}
+function noise(dur, f1, f2, vol) {
+  const a = audio(); if (!a) return;
+  const t = a.currentTime, n = Math.floor(a.sampleRate * dur);
+  const buf = a.createBuffer(1, n, a.sampleRate), ch = buf.getChannelData(0);
+  for (let i = 0; i < n; i++) ch[i] = (Math.random() * 2 - 1) * (1 - i / n);
+  const src = a.createBufferSource(), f = a.createBiquadFilter(), g = a.createGain();
+  src.buffer = buf; f.type = 'bandpass'; f.Q.value = 1.2;
+  f.frequency.setValueAtTime(f1, t); f.frequency.exponentialRampToValueAtTime(f2, t + dur);
+  g.gain.value = vol;
+  src.connect(f); f.connect(g); g.connect(a.destination);
+  src.start(t);
+}
+const SFX = {
+  pop: () => tone(520, 980, 0.09, 'sine', 0.28),
+  tool: () => { tone(660, 990, 0.08, 'triangle', 0.22); tone(990, 1320, 0.08, 'triangle', 0.16, 0.06); },
+  splash: () => { noise(0.45, 2400, 300, 0.5); tone(420, 140, 0.3, 'sine', 0.18); },
+  stamp: () => { tone(880, 1320, 0.08, 'sine', 0.24); tone(1320, 1760, 0.12, 'sine', 0.2, 0.07); },
+  undo: () => tone(760, 340, 0.14, 'triangle', 0.22),
+  chime: () => [523, 659, 784, 1047].forEach((f, i) => tone(f, f * 1.01, 0.3, 'sine', 0.2, i * 0.09)),
+  whoosh: () => noise(0.6, 300, 3000, 0.45),
+  tick: () => tone(420, 420, 0.03, 'square', 0.05)
+};
+function sfx(name) { if (soundOn && SFX[name]) { try { SFX[name](); } catch (e) {} } }
+function say(text) {
+  if (!soundOn || !window.speechSynthesis) return;
+  try {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.rate = 0.95; u.pitch = 1.15;
+    speechSynthesis.speak(u);
+  } catch (e) {}
+}
+
+/* ---------- hold-to-confirm, so little hands can't wipe a picture by accident ---------- */
+const bubble = $('#bubble');
+let bubbleTimer = 0;
+function tip(el, text) {
+  const r = el.getBoundingClientRect();
+  bubble.textContent = text;
+  bubble.classList.add('show');
+  const bw = bubble.offsetWidth;
+  bubble.style.left = Math.max(8, Math.min(window.innerWidth - bw - 8, r.left + r.width / 2 - bw / 2)) + 'px';
+  bubble.style.top = (r.bottom + 10 + 40 > window.innerHeight ? r.top - 50 : r.bottom + 10) + 'px';
+  clearTimeout(bubbleTimer);
+  bubbleTimer = setTimeout(() => bubble.classList.remove('show'), 1800);
+}
+function holdButton(el, ms, onDone, hint) {
+  let t0 = 0, raf = 0, fired = false;
+  const step = () => {
+    const p = Math.min(1, (performance.now() - t0) / ms);
+    el.style.setProperty('--p', p);
+    if (p >= 1) { fired = true; t0 = 0; el.style.setProperty('--p', 0); onDone(); return; }
+    raf = requestAnimationFrame(step);
+  };
+  el.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    fired = false; t0 = performance.now();
+    cancelAnimationFrame(raf); raf = requestAnimationFrame(step);
+  });
+  const stop = () => {
+    if (!t0) return;
+    cancelAnimationFrame(raf); t0 = 0;
+    el.style.setProperty('--p', 0);
+    if (!fired && hint) { sfx('tick'); tip(el, hint); }
+  };
+  ['pointerup', 'pointerleave', 'pointercancel'].forEach((ev) => el.addEventListener(ev, stop));
+  el.addEventListener('contextmenu', (e) => e.preventDefault());
+}
+
 /* ---------- toolbar UI ---------- */
 const colorsEl = $('#colors'), optsEl = $('#opts');
 PALETTE.forEach(([name, hex]) => {
@@ -321,6 +467,7 @@ PALETTE.forEach(([name, hex]) => {
   b.setAttribute('aria-label', name);
   b.dataset.hex = hex;
   b.addEventListener('click', () => {
+    sfx('pop'); say(name);
     S.color = hex;
     colorsEl.querySelectorAll('.sw').forEach((x) => x.classList.toggle('on', x.dataset.hex === hex));
     if (S.tool === 'eraser' || S.tool === 'rainbow' || S.tool === 'stickers') setTool('paint');
@@ -329,7 +476,7 @@ PALETTE.forEach(([name, hex]) => {
   colorsEl.appendChild(b);
 });
 
-document.querySelectorAll('.tool').forEach((b) => b.addEventListener('click', () => setTool(b.dataset.tool)));
+document.querySelectorAll('.tool').forEach((b) => b.addEventListener('click', () => { sfx('tool'); say(b.textContent.trim()); setTool(b.dataset.tool); }));
 function setTool(t) {
   S.tool = t;
   document.querySelectorAll('.tool').forEach((x) => x.classList.toggle('on', x.dataset.tool === t));
@@ -357,6 +504,7 @@ function renderOpts() {
 optsEl.addEventListener('click', (e) => {
   const b = e.target.closest('button');
   if (!b) return;
+  sfx('pop');
   if (b.dataset.size) S.size = +b.dataset.size;
   if (b.dataset.shape) S.shape = b.dataset.shape;
   if (b.dataset.sticker) S.sticker = b.dataset.sticker;
@@ -368,20 +516,25 @@ function whitePaper() { pc.fillStyle = '#FFFFFF'; pc.fillRect(0, 0, W, H); }
 function setPage(i) {
   S.page = i;
   lc.clearRect(0, 0, W, H);
-  drawPage(lc, PAGES[i], W / 200, 1.3);
+  drawPageOnPaper(lc, PAGES[i]);
   LD = lc.getImageData(0, 0, W, H).data;
   store('page', PAGES[i].name);
 }
 function snap() {
   try {
-    undoStack.push(pc.getImageData(0, 0, W, H));
+    undoStack.push({ img: pc.getImageData(0, 0, W, H), page: S.page });
     if (undoStack.length > UNDO_MAX) undoStack.shift();
   } catch (e) {}
   $('#undoBtn').disabled = false;
 }
 function undo() {
   const d = undoStack.pop();
-  if (d) { pc.putImageData(d, 0, 0); persist(); }
+  if (d) {
+    sfx('undo');
+    if (d.page !== S.page) setPage(d.page);
+    pc.putImageData(d.img, 0, 0);
+    persist();
+  }
   $('#undoBtn').disabled = undoStack.length === 0;
 }
 let persistTimer = 0;
@@ -436,6 +589,7 @@ prev.addEventListener('pointerdown', (e) => {
   const p = posOf(e);
   if (S.tool === 'fill') {
     snap();
+    sfx('splash');
     flood(Math.round(p.x), Math.round(p.y), S.color);
     persist();
     return;
@@ -479,6 +633,7 @@ function endStroke(e) {
   } else {
     vc.clearRect(0, 0, W, H);
     drawItem(pc, lastP);
+    sfx('stamp');
   }
   persist();
 }
@@ -552,7 +707,7 @@ function flood(sx, sy, hex) {
 function show(id) { $(id).classList.add('show'); }
 function hideAll() { document.querySelectorAll('.ov').forEach((o) => o.classList.remove('show')); }
 document.querySelectorAll('[data-close]').forEach((b) => b.addEventListener('click', hideAll));
-document.querySelectorAll('.ov').forEach((o) => o.addEventListener('click', (e) => { if (e.target === o) hideAll(); }));
+document.querySelectorAll('.ov').forEach((o) => o.addEventListener('click', (e) => { if (e.target === o && (o.id !== 'whoOv' || load('kid'))) hideAll(); }));
 
 const grid = $('#pageGrid');
 PAGES.forEach((pg, i) => {
@@ -572,19 +727,42 @@ PAGES.forEach((pg, i) => {
   grid.appendChild(b);
 });
 function newPicture(i) {
+  snap();                      // Undo brings the old picture back
   whitePaper();
   setPage(i);
-  undoStack.length = 0;
-  $('#undoBtn').disabled = true;
   persist();
   hideAll();
+  sfx('pop');
+  say(PAGES[i].name);
 }
 
-$('#picsBtn').addEventListener('click', () => show('#picsOv'));
-$('#clearBtn').addEventListener('click', () => show('#clearOv'));
-$('#clearYes').addEventListener('click', () => { snap(); whitePaper(); persist(); hideAll(); });
+$('#picsBtn').addEventListener('click', () => { sfx('tool'); say('Pictures'); show('#picsOv'); });
+holdButton($('#clearBtn'), 2000, () => { snap(); whitePaper(); persist(); sfx('whoosh'); say('Fresh paper!'); }, 'Hold to start over');
+holdButton($('#newFromSave'), 2000, () => { hideAll(); show('#picsOv'); }, 'Hold for a new picture');
 $('#undoBtn').addEventListener('click', undo);
-$('#newFromSave').addEventListener('click', () => { hideAll(); show('#picsOv'); });
+
+/* ---------- who is painting ---------- */
+let kid = load('kid');
+function showName() {
+  $('#title').textContent = kid ? kid + "'s Paint Pad" : 'Paint Pad';
+  document.title = $('#title').textContent;
+}
+function showSound() { $('#soundBtn').textContent = soundOn ? 'On' : 'Off'; }
+document.querySelectorAll('.kid').forEach((b) => b.addEventListener('click', () => {
+  kid = b.dataset.kid;
+  store('kid', kid);
+  showName();
+  hideAll();
+  sfx('chime');
+  say('Hi ' + kid + '!');
+}));
+$('#soundBtn').addEventListener('click', () => {
+  soundOn = !soundOn;
+  store('sound', soundOn ? 'on' : 'off');
+  showSound();
+  sfx('pop');
+});
+holdButton($('#brand'), 2000, () => { showSound(); show('#whoOv'); }, null);
 
 let shareFile = null;
 $('#saveBtn').addEventListener('click', () => {
@@ -594,13 +772,15 @@ $('#saveBtn').addEventListener('click', () => {
   x.drawImage(paint, 0, 0);
   x.drawImage(lines, 0, 0);
   $('#saveImg').src = c.toDataURL('image/png');
+  sfx('chime');
+  say('Great picture!');
   shareFile = null;
   $('#shareBtn').hidden = true;
   $('#saveTip').textContent = 'Press and hold your picture, then tap Save to Photos.';
   if (navigator.canShare && window.File) {
     c.toBlob((blob) => {
       if (!blob) return;
-      const f = new File([blob], 'paint-pad-picture.png', { type: 'image/png' });
+      const f = new File([blob], (kid ? kid.toLowerCase() + '-' : '') + 'paint-pad-picture.png', { type: 'image/png' });
       if (navigator.canShare({ files: [f] })) {
         shareFile = f;
         $('#shareBtn').hidden = false;
@@ -626,12 +806,19 @@ setPage(savedIdx >= 0 ? savedIdx : 0);
 const savedPaint = load('paint');
 if (savedPaint) {
   const im = new Image();
-  im.onload = () => pc.drawImage(im, 0, 0, W, H);
+  im.onload = () => {
+    // a picture saved before the paper got wider sits in the middle at its old size
+    const w = im.width * H / im.height;
+    pc.drawImage(im, (W - w) / 2, 0, w, H);
+  };
   im.src = savedPaint;
 }
 $('#undoBtn').disabled = true;
 renderOpts();
 fit();
+showName();
+showSound();
+if (!kid) show('#whoOv');
 
 // keep a copy on the iPad so the app opens with no connection (airplane mode)
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
