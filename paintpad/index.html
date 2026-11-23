@@ -42,8 +42,8 @@ header{grid-area:top;display:flex;align-items:center;gap:12px;min-height:56px}
 .btn.go{background:#2A9D55;color:#fff;box-shadow:0 3px 0 rgba(20,80,40,.35)}
 .btn.sq{width:56px;padding:0;justify-content:center}
 .btn:disabled{opacity:.4}
-#tools{grid-area:tools;display:flex;flex-direction:column;gap:10px;overflow-y:auto;scrollbar-width:none}
-.tool{width:92px;height:88px;flex:none;border-radius:24px;border:4px solid #fff;background:#fff;box-shadow:0 3px 0 rgba(43,35,64,.12);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0;font-size:15px;font-weight:600}
+#tools{grid-area:tools;display:flex;flex-direction:column;gap:10px;min-height:0}
+.tool{width:92px;flex:1 1 0;min-height:0;max-height:88px;border-radius:24px;border:4px solid #fff;background:#fff;box-shadow:0 3px 0 rgba(43,35,64,.12);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0;font-size:15px;font-weight:600}
 .tool.on{border-color:var(--ink);background:var(--pick)}
 #stage{grid-area:stage;display:flex;align-items:center;justify-content:center;min-width:0;min-height:0;overflow:hidden}
 #paper{position:relative;background:#fff;border-radius:28px;overflow:hidden;box-shadow:0 6px 0 rgba(43,35,64,.10)}
@@ -94,7 +94,10 @@ footer{grid-area:bottom;display:flex;align-items:center;gap:16px;background:#fff
   .div{display:none}
   #opts{min-width:0}
 }
-@media (max-height:700px){.tool{height:74px;width:84px;font-size:13px}}
+/* shorter screens (iPad mini, Safari with its bars showing): tools shrink so all six fit */
+@media (max-width:1100px){.sw{width:38px;height:38px}#colors{gap:6px}#opts{min-width:250px}}
+@media (max-height:760px){#tools{gap:8px}.tool{width:84px;font-size:13px;gap:2px;border-radius:20px}.tool svg{width:28px;height:28px}}
+@media (max-height:620px){.tool{width:76px;font-size:12px}.tool svg{width:24px;height:24px}}
 </style>
 </head>
 <body>
@@ -173,25 +176,10 @@ footer{grid-area:bottom;display:flex;align-items:center;gap:16px;background:#fff
 // The paper fills the drawing area of a landscape iPad. Its shape is worked out once
 // and remembered, so a picture never gets squashed when the iPad is turned.
 const H = 1200;
-const W = (() => {
-  let a = NaN;
-  try { a = parseFloat(localStorage.getItem('paintpad.aspect')); } catch (e) {}
-  if (!(a >= 4 / 3 && a <= 2.3)) {
-    const r = document.getElementById('stage').getBoundingClientRect();
-    if (r.width >= r.height && r.height > 0) a = r.width / r.height;
-    else {
-      const long = Math.max(screen.width, screen.height), short = Math.min(screen.width, screen.height);
-      a = (long - 160) / (short - 200);   // tool rail, header and color bar taken out
-    }
-    a = Math.min(2.3, Math.max(4 / 3, a));
-    try { localStorage.setItem('paintpad.aspect', a.toFixed(4)); } catch (e) {}
-  }
-  return Math.round(H * a);
-})();
+let W = 1600;   // set for real at start-up, once the toolbars are laid out
 const LINE = '#1F1A2E';
 const $ = (s) => document.querySelector(s);
 const paint = $('#paint'), lines = $('#lines'), prev = $('#prev');
-[paint, lines, prev].forEach((c) => { c.width = W; c.height = H; });
 const pc = paint.getContext('2d', { willReadFrequently: true });
 const lc = lines.getContext('2d', { willReadFrequently: true });
 const vc = prev.getContext('2d');
@@ -796,6 +784,23 @@ $('#shareBtn').addEventListener('click', async () => {
 });
 
 /* ---------- start ---------- */
+function paperWidth() {
+  let a = NaN;
+  try { a = parseFloat(localStorage.getItem('paintpad.paper')); } catch (e) {}
+  if (!(a >= 4 / 3 && a <= 2.3)) {
+    const r = document.getElementById('stage').getBoundingClientRect();
+    if (r.width >= r.height && r.height > 0) a = r.width / r.height;
+    else {
+      const long = Math.max(screen.width, screen.height), short = Math.min(screen.width, screen.height);
+      a = (long - 160) / (short - 200);   // tool rail, header and color bar taken out
+    }
+    a = Math.min(2.3, Math.max(4 / 3, a));
+    try { localStorage.setItem('paintpad.paper', a.toFixed(4)); } catch (e) {}
+  }
+  return Math.round(H * a);
+}
+W = paperWidth();
+[paint, lines, prev].forEach((c) => { c.width = W; c.height = H; });
 whitePaper();
 // saved by name; older versions saved a position in the original list
 const OLD_ORDER = ['Blank page', 'House', 'Fish', 'Flower', 'Rocket', 'Butterfly', 'Car', 'Cat'];
