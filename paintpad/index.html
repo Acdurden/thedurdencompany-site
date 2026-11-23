@@ -354,7 +354,7 @@ window.addEventListener('orientationchange', () => setTimeout(fit, 250));
 if (window.ResizeObserver) new ResizeObserver(fit).observe(stage);
 
 /* ---------- sounds and voice (made in code, so they work offline) ---------- */
-let soundOn = load('sound') !== 'off';
+let soundOn = load('sound') === 'on';   // off unless a grown-up turns it on
 let AC = null;
 function audio() {
   try {
