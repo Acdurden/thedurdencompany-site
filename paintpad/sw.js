@@ -3,7 +3,7 @@
 // Everything is served from this site; nothing comes from anywhere else.
 // After that the app opens and works with no connection at all.
 // Bump VERSION whenever any file in this folder changes, so iPads pick up the update.
-const VERSION = 'paintpad-v4';
+const VERSION = 'paintpad-v5';
 const CORE = [
   './',
   './index.html',

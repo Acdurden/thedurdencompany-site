@@ -79,7 +79,8 @@ footer{grid-area:bottom;display:flex;align-items:center;gap:16px;background:#fff
 .letbtn{position:absolute;right:18px;bottom:18px;z-index:3;height:72px;padding:0 26px 0 20px;border:0;border-radius:26px;color:#fff !important;font-size:24px;font-weight:700;display:flex;align-items:center;gap:10px;box-shadow:0 5px 0 rgba(0,0,0,.25)}
 .letbtn[hidden]{display:none}
 .letbtn:active{transform:translateY(3px)}
-.playrow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.playrow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+@media (max-width:900px){.playrow{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .play{height:118px;border:0;border-radius:24px;color:#fff !important;font-size:20px;font-weight:700;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;box-shadow:0 5px 0 rgba(0,0,0,.2)}
 .play:active{transform:translateY(3px)}
 .sub{margin:4px 0 0;font-size:24px;font-weight:700}
@@ -161,6 +162,7 @@ footer{grid-area:bottom;display:flex;align-items:center;gap:16px;background:#fff
       <button class="play" type="button" data-scene="track" style="background:#FF4D4D"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 33V27q0-4 4-4l7-1 5-8h10l4 8 7 2q2 1 2 4v5z"/><circle cx="14" cy="34" r="4.5"/><circle cx="35" cy="34" r="4.5"/></svg>Race Track</button>
       <button class="play" type="button" data-scene="arena" style="background:#FF9F1C"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 27h38v-6H33l-5-8h-9v8H5z"/><circle cx="13" cy="35" r="7"/><circle cx="35" cy="35" r="7"/></svg>Monster Trucks</button>
       <button class="play" type="button" data-scene="stage" style="background:#8E5CF7"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="24" cy="10" r="4"/><path d="M17 4q-2 10 7 12 9-2 7-12"/><path d="M11 27q13-8 26 0-13 7-26 0z"/><path d="M22 30l-1 13M26 30l1 13"/></svg>Ballet</button>
+      <button class="play" type="button" data-scene="garden" style="background:#FF70A6"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="24" cy="11" r="4"/><path d="M21 17h6l4 16H17z"/><path d="M21 19C12 6 3 12 8 20c3 4 9 3 13 1M27 19c9-13 18-7 13 1-3 4-9 3-13 1"/></svg>Fairies</button>
     </div>
     <h3 class="sub">Color a picture</h3>
     <div id="pageGrid"></div>
@@ -227,6 +229,20 @@ const E = (cx, cy, rx, ry, deg = 0) => {
 };
 const R = (x, y, w, h) => `M${x} ${y}h${w}v${h}h${-w}Z`;
 const P = (s) => 'M' + s.trim().split(/\s+/).join('L') + 'Z';
+const FAIRY = {
+  wingUL: 'M92.53 56 C72 30 50 42 62 58 C70 68 84 66 91.11 62 Z',
+  wingLL: 'M90.63 64 C76 62 66 74 72 82 C78 88 86 78 89.21 70 Z',
+  wingUR: 'M107.47 56 C128 30 150 42 138 58 C130 68 116 66 108.89 62 Z',
+  wingLR: 'M109.37 64 C124 62 134 74 128 82 C122 88 114 78 110.79 70 Z',
+  dress: 'M93 54 H107 L116 92 Q100 98 84 92 Z',
+  armL: 'M94 55.5 Q91.5 66 99 71.5 L100.5 69.5 Q95.5 65 97 55.5 Z',
+  armR: 'M106 55.5 Q108.5 66 101 71.5 L99.5 69.5 Q104.5 65 103 55.5 Z',
+  legL: 'M95 94.71 L93.5 116 H98.5 L99.5 95 Q97.25 94.97 95 94.71 Z',
+  legR: 'M100.5 95 L101.5 116 H106.5 L105 94.71 Q102.75 94.97 100.5 95 Z',
+  neck: 'M98 49.5 V54 M102 49.5 V54',
+  hair: 'M90.15 41.74 Q88 26 100 26.5 Q112 26 109.85 41.74 A10 10 0 1 0 90.15 41.74 Z',
+  tiara: 'M96 26 L96.8 19.6 L98.6 23.2 L100 17.2 L101.4 23.2 L103.2 19.6 L104 26 Z'
+};
 const TREADS = (cx, cy) => {
   let d = '';
   for (let k = 0; k < 14; k++) {
@@ -301,6 +317,16 @@ const PAGES = [
     P('40,40 43,47 50,47 44.5,51.5 46.5,58.5 40,54.5 33.5,58.5 35.5,51.5 30,47 37,47'),
     P('160,30 162.5,35.5 168,35.5 163.5,39 165,44.5 160,41.5 155,44.5 156.5,39 152,35.5 157.5,35.5'),
     'M156 100 C146 92 150 84 156 89 C162 84 166 92 156 100 Z'
+  ] },
+  { name: 'Fairy', paths: [
+    'M-5 136 Q100 128 205 136',
+    FAIRY.wingUL, FAIRY.wingLL, FAIRY.wingUR, FAIRY.wingLR,
+    FAIRY.legL, FAIRY.legR, FAIRY.neck, FAIRY.dress, FAIRY.armL, FAIRY.armR,
+    C(100, 40, 10), FAIRY.hair, FAIRY.tiara, C(96.5, 40.5, 1.2), C(103.5, 40.5, 1.2), 'M97.5 44.5 Q100 46.5 102.5 44.5',
+    C(172, 26, 12), P('34,28 37,35 44,35 38.5,39.5 40.5,46.5 34,42.5 27.5,46.5 29.5,39.5 24,35 31,35'),
+    'M150 100 L153 108 L161 111 L153 114 L150 122 L147 114 L139 111 L147 108 Z',
+    'M40 136 V118', C(40, 112, 6), C(33, 112, 5), C(47, 112, 5), C(40, 105, 5), C(40, 119, 4),
+    'M168 136 Q172 126 166 118 Q178 122 168 136'
   ] },
   { name: 'House', paths: ['M-5 132 Q100 124 205 132', R(55, 70, 80, 60), P('45,72 95,32 145,72'), R(85, 95, 20, 35), R(62, 82, 16, 14), R(112, 82, 16, 14), R(115, 38, 12, 22), C(170, 30, 14), 'M163 113 V131', C(165, 100, 16)] },
   { name: 'Fish', paths: ['M-5 136 Q100 128 205 136', P('140,75 180,45 172,75 180,105'), E(95, 75, 52, 34), C(70, 66, 7), C(71, 66, 2.5), 'M110 43 Q120 75 110 107', 'M126 47 Q134 75 126 103', E(98, 84, 14, 7), C(35, 35, 6), C(25, 18, 4), C(40, 8, 3), 'M188 136 Q180 120 188 105 T188 80', 'M12 136 Q20 122 12 108 T12 88'] },
@@ -853,6 +879,7 @@ const SCENES = {
   aquarium: { name: 'Aquarium', cap: 12, verb: 'Let it swim', hint: 'Tap the water to call the fish', burst: 'Here fishy fishy!', empty: 'Color the fish and tap Let it swim', color: '#2EC4B6' },
   track: { name: 'Race Track', cap: 6, verb: 'Let it race', hint: 'Tap for turbo', burst: 'TURBO!', empty: 'Color a race car and tap Let it race', color: '#FF4D4D' },
   arena: { name: 'Monster Truck Arena', cap: 6, verb: 'Let it race', hint: 'Tap for big jumps', burst: 'BIG JUMPS!', empty: 'Color the monster truck and tap Let it race', color: '#FF9F1C' },
+  garden: { name: 'Fairy Garden', cap: 8, verb: 'Let her fly', hint: 'Tap to sprinkle fairy dust', burst: 'Fairy dust!', empty: 'Color the fairy and tap Let her fly', color: '#FF70A6' },
   stage: { name: 'Ballet', cap: 5, verb: 'Let her dance', hint: 'Tap for a leap and a twirl', burst: 'Bravo!', empty: 'Color the ballerina and tap Let her dance', color: '#8E5CF7' }
 };
 
@@ -881,6 +908,14 @@ const SPRITES = {
       line: ['M96 62 V34 Q96 28 102 28 H136 L156 62', 'M30 62 H176 Q186 62 186 72 V92 H30 Z', 'M40 62 V50 H88 V62', 'M104 34 H134 L148 58 H104 Z', 'M36 84 Q52 70 62 82 Q74 68 84 82 Q96 68 106 82 Q118 70 128 84', C(180, 70, 4), 'M58 92 l4 -5 l4 5 M152 92 l4 -5 l4 5'] },
     { n: 'wheelA', fill: [C(62, 118, 28)], line: [C(62, 118, 28), TREADS(62, 118), C(62, 118, 13)], pivot: [62, 118] },
     { n: 'wheelB', fill: [C(156, 118, 28)], line: [C(156, 118, 28), TREADS(156, 118), C(156, 118, 13)], pivot: [156, 118] }
+  ] },
+  'Fairy': { scene: 'garden', box: [48, 10, 104, 112], anchor: [100, 70], pieces: [
+    { n: 'wingL', fill: [FAIRY.wingUL, FAIRY.wingLL], line: [FAIRY.wingUL, FAIRY.wingLL], pivot: [91.5, 63] },
+    { n: 'wingR', fill: [FAIRY.wingUR, FAIRY.wingLR], line: [FAIRY.wingUR, FAIRY.wingLR], pivot: [108.5, 63] },
+    { n: 'legL', fill: [FAIRY.legL], line: [FAIRY.legL], pivot: [97, 95] },
+    { n: 'legR', fill: [FAIRY.legR], line: [FAIRY.legR], pivot: [103, 95] },
+    { n: 'body', fill: [FAIRY.dress, C(100, 40, 10), FAIRY.hair, FAIRY.tiara, 'M97.5 49 H102.5 V55 H97.5 Z'],
+      line: [FAIRY.neck, FAIRY.dress, FAIRY.armL, FAIRY.armR, C(100, 40, 10), FAIRY.hair, FAIRY.tiara, C(96.5, 40.5, 1.2), C(103.5, 40.5, 1.2), 'M97.5 44.5 Q100 46.5 102.5 44.5'] }
   ] },
   'Ballerina': { scene: 'stage', box: [60, 2, 80, 140], anchor: [100, 137], pieces: [
     { n: 'armL', line: ['M93 49 Q80 38 83 22 Q86 12 95 9', C(95, 9, 2.2)], pivot: [93, 49] },
@@ -1279,6 +1314,92 @@ RENDER.arena = {
       } });
     });
     draws.sort((p, q) => p.y - q.y).forEach((d) => d.fn());
+  }
+};
+
+/* ----- fairy garden ----- */
+RENDER.garden = {
+  init(S) { S.friends.forEach((f) => { f.trail = []; }); },
+  pos(f, i, t, S) {
+    const a = 0.22 + 0.12 * seeded(f.id + 6), b = 0.41 + 0.2 * seeded(f.id + 7);
+    const p = seeded(f.id + 8) * 6.28, q = seeded(f.id + 9) * 6.28;
+    let x = 570 + 430 * Math.sin(a * t + p), y = 290 + 150 * Math.sin(b * t + q);
+    const age = t - S.tapAt;
+    if (age >= 0 && age < 4.5) {                                 // fairies circle the spot that was tapped
+      const w = age < 1 ? age : age < 3.4 ? 1 : 1 - (age - 3.4) / 1.1;
+      const e = smooth(w), ang = i * 0.785 + t * 1.6, r = 80 + (i % 3) * 24;
+      x = lerp(x, S.tapX + Math.cos(ang) * r, e);
+      y = lerp(y, Math.min(520, S.tapY) + Math.sin(ang) * r * 0.55, e);
+    }
+    if (t < f.enterT + 3) { const u = smooth((t - f.enterT) / 3); x = lerp(-160, x, u); y = lerp(-120, y, u); }   // flies in from the corner
+    if (f.leaving && t > f.leaveT) {                             // flies up and away
+      const u = smooth((t - f.leaveT) / 3);
+      x = lerp(x, x + 120 * Math.sin((t - f.leaveT) * 4), u); y = lerp(y, -260, u);
+      if (u >= 1) f.gone = true;
+    }
+    return { x, y };
+  },
+  frame(S, c, t) {
+    cachedLayer('back', (b) => {
+      b.fillStyle = '#2E2A6B'; b.fillRect(0, 0, SW, SH);
+      b.fillStyle = '#3E3585'; b.fillRect(0, 300, SW, SH);
+      shape(b, 'M1000 90 A46 46 0 1 0 1092 90 A46 46 0 1 0 1000 90Z', '#FFF3B0', LINE, 4);
+      shape(b, 'M1050 70 A10 10 0 1 0 1070 70 A10 10 0 1 0 1050 70Z M1022 104 A7 7 0 1 0 1036 104 A7 7 0 1 0 1022 104Z', '#F2E08C');
+      shape(b, 'M-10 560 Q 200 470 420 540 T 820 520 T 1150 500 V720 H-10Z', '#2A9D55', LINE, 4);
+      shape(b, 'M-10 610 Q 300 560 600 600 T 1150 590 V720 H-10Z', '#3FB86A', LINE, 4);
+      // mushrooms
+      [[180, 640, 1], [930, 625, 1.3], [1010, 650, 0.8]].forEach(([x, y, k]) => {
+        shape(b, `M${x - 12 * k} ${y} V${y - 34 * k} H${x + 12 * k} V${y}Z`, '#FFF4E6', LINE, 4);
+        shape(b, `M${x - 46 * k} ${y - 30 * k} Q${x} ${y - 100 * k} ${x + 46 * k} ${y - 30 * k}Z`, '#FF4D4D', LINE, 4);
+        shape(b, `M${x - 20 * k} ${y - 52 * k} A7 7 0 1 0 ${x - 6 * k} ${y - 52 * k} A7 7 0 1 0 ${x - 20 * k} ${y - 52 * k}Z M${x + 10 * k} ${y - 44 * k} A6 6 0 1 0 ${x + 22 * k} ${y - 44 * k} A6 6 0 1 0 ${x + 10 * k} ${y - 44 * k}Z`, '#FFFFFF');
+      });
+      // flowers
+      [[90, 600, '#FF70A6'], [330, 610, '#FFD60A'], [520, 630, '#8E5CF7'], [700, 600, '#FF9F1C'], [800, 640, '#4CC9F0']].forEach(([x, y, col]) => {
+        b.strokeStyle = LINE; b.lineWidth = 4; b.beginPath(); b.moveTo(x, y + 60); b.lineTo(x, y); b.stroke();
+        for (let k = 0; k < 6; k++) { const a = k * Math.PI / 3; shape(b, `M${x + 16 * Math.cos(a) - 11} ${y + 16 * Math.sin(a)} A11 11 0 1 0 ${x + 16 * Math.cos(a) + 11} ${y + 16 * Math.sin(a)} A11 11 0 1 0 ${x + 16 * Math.cos(a) - 11} ${y + 16 * Math.sin(a)}Z`, col, LINE, 3); }
+        shape(b, `M${x - 9} ${y} A9 9 0 1 0 ${x + 9} ${y} A9 9 0 1 0 ${x - 9} ${y}Z`, '#FFD60A', LINE, 3);
+      });
+    });
+    for (let i = 0; i < 26; i++) {                               // twinkling stars
+      const x = (i * 263) % 1100 + 20, y = (i * 137) % 260 + 20;
+      const tw = 0.35 + 0.65 * Math.abs(Math.sin(t * (1 + (i % 4) * 0.4) + i));
+      c.globalAlpha = tw; shape(c, starPath(x, y, 6 + (i % 3) * 2, 2.6), '#FFF3B0'); c.globalAlpha = 1;
+    }
+    for (let i = 0; i < 12; i++) {                               // fireflies
+      const x = 100 + ((i * 331) % 940) + 30 * Math.sin(t * 0.7 + i), y = 430 + ((i * 97) % 160) + 20 * Math.sin(t * 1.1 + i * 2);
+      c.beginPath(); c.arc(x, y, 4, 0, Math.PI * 2);
+      c.fillStyle = 'rgba(255,240,140,' + (0.3 + 0.7 * Math.abs(Math.sin(t * 2 + i))).toFixed(2) + ')'; c.fill();
+    }
+    const age = t - S.tapAt;
+    if (age >= 0 && age < 2.4) {                                 // fairy dust burst where they tapped
+      for (let i = 0; i < 18; i++) {
+        const a = i * 0.349 + age, r = age * (110 + (i % 4) * 30);
+        c.save(); c.globalAlpha = Math.max(0, 1 - age / 2.4);
+        c.translate(S.tapX + Math.cos(a) * r, S.tapY + Math.sin(a) * r + age * age * 30); c.rotate(age * 4 + i);
+        shape(c, starPath(0, 0, 10, 4), PARTY[i % 8], LINE, 1.5); c.restore();
+      }
+    }
+    S.friends.forEach((f, i) => {
+      const p = this.pos(f, i, t, S), q = this.pos(f, i, t - 0.06, S);
+      const vx = (p.x - q.x) / 0.06;
+      f.trail = f.trail || [];
+      f.trail.push({ x: p.x + (Math.random() - 0.5) * 20, y: p.y + 40 + (Math.random() - 0.5) * 20, t, c: PARTY[(i + f.trail.length) % 8] });
+      while (f.trail.length && t - f.trail[0].t > 1.1) f.trail.shift();
+      f.trail.forEach((d, j) => {
+        if (j % 2) return;
+        const life = 1 - (t - d.t) / 1.1;
+        c.save(); c.globalAlpha = life; c.translate(d.x, d.y + (1 - life) * 30);
+        shape(c, starPath(0, 0, 4 + 5 * life, 2), j % 4 ? '#FFF3B0' : d.c); c.restore();
+      });
+      const k = 1.45 + 0.4 * seeded(f.id + 10);
+      const flap = Math.abs(Math.sin(t * 9 + i * 1.7));
+      const tilt = Math.max(-0.3, Math.min(0.3, vx * 0.0011));
+      const bobY = 8 * Math.sin(t * 3 + i);
+      drawFriend(c, f, p.x, p.y + bobY, k, 1, tilt, {
+        wingL: { sx: 0.45 + 0.55 * flap }, wingR: { sx: 0.45 + 0.55 * flap },
+        legL: { r: 0.18 * Math.sin(t * 2.4 + i) }, legR: { r: 0.18 * Math.sin(t * 2.4 + i + 1.2) }
+      });
+    });
   }
 };
 
