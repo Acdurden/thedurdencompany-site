@@ -76,6 +76,20 @@ footer{grid-area:bottom;display:flex;align-items:center;gap:16px;background:#fff
 .kid:active{transform:translateY(3px)}
 .setrow{display:flex;gap:14px;justify-content:center;align-items:center;font-size:20px;font-weight:500}
 .fine{font-size:15px;color:var(--soft)}
+.letbtn{position:absolute;right:18px;bottom:18px;z-index:3;height:72px;padding:0 26px 0 20px;border:0;border-radius:26px;color:#fff !important;font-size:24px;font-weight:700;display:flex;align-items:center;gap:10px;box-shadow:0 5px 0 rgba(0,0,0,.25)}
+.letbtn[hidden]{display:none}
+.letbtn:active{transform:translateY(3px)}
+.playrow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.play{height:118px;border:0;border-radius:24px;color:#fff !important;font-size:20px;font-weight:700;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;box-shadow:0 5px 0 rgba(0,0,0,.2)}
+.play:active{transform:translateY(3px)}
+.sub{margin:4px 0 0;font-size:24px;font-weight:700}
+.ov.scene{background:var(--bg);align-items:stretch;padding:max(14px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) max(14px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left))}
+.scenewrap{display:flex;flex-direction:column;gap:14px;width:100%;height:100%}
+.scenetop{display:flex;align-items:center;gap:14px;min-height:56px}
+#sceneTitle{flex:1;font-size:30px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#scenePill{height:44px;padding:0 16px;border-radius:22px;display:flex;align-items:center;font-size:17px;font-weight:600;background:#fff;color:var(--soft);white-space:nowrap}
+#sceneBox{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
+#sceneCv{border-radius:28px;touch-action:none;box-shadow:0 6px 0 rgba(43,35,64,.10)}
 .close{width:60px;height:60px;border-radius:20px;border:0;background:var(--bg);display:flex;align-items:center;justify-content:center}
 #pageGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px}
 .pg{border:4px solid var(--line);border-radius:26px;background:#fff;padding:12px 12px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:22px;font-weight:600}
@@ -129,6 +143,7 @@ footer{grid-area:bottom;display:flex;align-items:center;gap:16px;background:#fff
     <canvas id="paint"></canvas>
     <canvas id="lines"></canvas>
     <canvas id="prev" aria-label="Drawing paper"></canvas>
+    <button class="letbtn" id="letBtn" type="button" hidden><svg width="40" height="40" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 4l5 11 12 1-9 8 3 12-11-6-11 6 3-12-9-8 12-1z"/><path d="M40 34l2 5M8 34l-2 5M24 42v4"/></svg><span id="letLabel">Let it swim</span></button>
   </div>
 </main>
 
@@ -140,7 +155,14 @@ footer{grid-area:bottom;display:flex;align-items:center;gap:16px;background:#fff
 
 <div class="ov" id="picsOv">
   <div class="card">
-    <div class="cardtop"><h2>Pick a picture to color</h2><button class="close" type="button" data-close aria-label="Close"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg></button></div>
+    <div class="cardtop"><h2>Play or pick a picture</h2><button class="close" type="button" data-close aria-label="Close"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg></button></div>
+    <div class="playrow">
+      <button class="play" type="button" data-scene="aquarium" style="background:#2EC4B6"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 24c6-9 16-12 26-6l10-7v26l-10-7c-10 6-20 3-26-6z"/><circle cx="15" cy="22" r="1.6" fill="currentColor"/></svg>Aquarium</button>
+      <button class="play" type="button" data-scene="track" style="background:#FF4D4D"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 33V27q0-4 4-4l7-1 5-8h10l4 8 7 2q2 1 2 4v5z"/><circle cx="14" cy="34" r="4.5"/><circle cx="35" cy="34" r="4.5"/></svg>Race Track</button>
+      <button class="play" type="button" data-scene="arena" style="background:#FF9F1C"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 27h38v-6H33l-5-8h-9v8H5z"/><circle cx="13" cy="35" r="7"/><circle cx="35" cy="35" r="7"/></svg>Monster Trucks</button>
+      <button class="play" type="button" data-scene="stage" style="background:#8E5CF7"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="24" cy="10" r="4"/><path d="M17 4q-2 10 7 12 9-2 7-12"/><path d="M11 27q13-8 26 0-13 7-26 0z"/><path d="M22 30l-1 13M26 30l1 13"/></svg>Ballet</button>
+    </div>
+    <h3 class="sub">Color a picture</h3>
     <div id="pageGrid"></div>
   </div>
 </div>
@@ -170,6 +192,17 @@ footer{grid-area:bottom;display:flex;align-items:center;gap:16px;background:#fff
   </div>
 </div>
 
+<div class="ov scene" id="sceneOv">
+  <div class="scenewrap">
+    <div class="scenetop">
+      <button class="btn" id="sceneBack" type="button"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Back to painting</button>
+      <b id="sceneTitle"></b>
+      <span id="scenePill"></span>
+    </div>
+    <div id="sceneBox"><canvas id="sceneCv" aria-label="Play scene"></canvas></div>
+  </div>
+</div>
+
 <div id="bubble" role="status"></div>
 
 <script>
@@ -194,6 +227,14 @@ const E = (cx, cy, rx, ry, deg = 0) => {
 };
 const R = (x, y, w, h) => `M${x} ${y}h${w}v${h}h${-w}Z`;
 const P = (s) => 'M' + s.trim().split(/\s+/).join('L') + 'Z';
+const TREADS = (cx, cy) => {
+  let d = '';
+  for (let k = 0; k < 14; k++) {
+    const a = k * Math.PI / 7;
+    d += `M${(cx + 22 * Math.cos(a)).toFixed(1)} ${(cy + 22 * Math.sin(a)).toFixed(1)}L${(cx + 28 * Math.cos(a)).toFixed(1)} ${(cy + 28 * Math.sin(a)).toFixed(1)}`;
+  }
+  return d;
+};
 
 const PAGES = [
   { name: 'Blank page', paths: [] },
@@ -241,6 +282,25 @@ const PAGES = [
     P('100,42 104,51 114,52 106,58 109,68 100,62 91,68 94,58 86,52 96,51'),
     P('34,24 37,31 44,31 38,35 40,42 34,38 28,42 30,35 24,31 31,31'), P('168,96 171,103 178,103 172,107 174,114 168,110 162,114 164,107 158,103 165,103'),
     'M20 100 L28 92 M24 110 L36 106 M176 30 L186 22 M172 44 L184 44'
+  ] },
+  { name: 'Monster truck', paths: [
+    'M-5 146 Q100 139 205 146', 'M96 62 V34 Q96 28 102 28 H136 L156 62', 'M30 62 H176 Q186 62 186 72 V92 H30 Z',
+    'M40 62 V50 H88 V62', 'M104 34 H134 L148 58 H104 Z', 'M36 84 Q52 70 62 82 Q74 68 84 82 Q96 68 106 82 Q118 70 128 84',
+    C(180, 70, 4), 'M58 92 l4 -5 l4 5 M152 92 l4 -5 l4 5',
+    C(62, 118, 28), C(156, 118, 28), TREADS(62, 118), TREADS(156, 118), C(62, 118, 13), C(156, 118, 13),
+    C(24, 22, 11), 'M150 14 Q158 6 168 11 Q176 2 186 11 Q196 11 192 18 H154 Q146 18 150 14Z'
+  ] },
+  { name: 'Ballerina', paths: [
+    'M-5 142 H205',
+    'M93 49 Q80 38 83 22 Q86 12 95 9', 'M107 49 Q120 38 117 22 Q114 12 105 9', C(95, 9, 2.2), C(105, 9, 2.2),
+    'M95 84.2 L93 128 H98.5 L99.5 86.48 Q97.25 86.28 95 84.2 Z', 'M100.5 86.48 L101.5 128 H107 L105 84.2 Q102.75 86.28 100.5 86.48 Z',
+    'M92.5 128 H99 L98.5 137 H93.5 Z', 'M101 128 H107.5 L106.5 137 H101.5 Z', 'M93 133 L98.5 131 M101.5 131 L107 133',
+    'M97.5 40.5 V46 M102.5 40.5 V46', 'M92 46 H108 L106 68.8 Q100 62.2 94 68.8 Z',
+    'M64 75 Q71 66 79 72 Q86 63 93 70 Q100 61 107 70 Q114 63 121 72 Q129 66 136 75 Q129 85 121 80 Q114 89 107 82 Q100 91 93 82 Q86 89 79 80 Q71 85 64 75 Z',
+    C(100, 15, 6), C(100, 30, 11), C(96.3, 29.5, 1.3), C(103.7, 29.5, 1.3), 'M97 34.5 Q100 37 103 34.5',
+    P('40,40 43,47 50,47 44.5,51.5 46.5,58.5 40,54.5 33.5,58.5 35.5,51.5 30,47 37,47'),
+    P('160,30 162.5,35.5 168,35.5 163.5,39 165,44.5 160,41.5 155,44.5 156.5,39 152,35.5 157.5,35.5'),
+    'M156 100 C146 92 150 84 156 89 C162 84 166 92 156 100 Z'
   ] },
   { name: 'House', paths: ['M-5 132 Q100 124 205 132', R(55, 70, 80, 60), P('45,72 95,32 145,72'), R(85, 95, 20, 35), R(62, 82, 16, 14), R(112, 82, 16, 14), R(115, 38, 12, 22), C(170, 30, 14), 'M163 113 V131', C(165, 100, 16)] },
   { name: 'Fish', paths: ['M-5 136 Q100 128 205 136', P('140,75 180,45 172,75 180,105'), E(95, 75, 52, 34), C(70, 66, 7), C(71, 66, 2.5), 'M110 43 Q120 75 110 107', 'M126 47 Q134 75 126 103', E(98, 84, 14, 7), C(35, 35, 6), C(25, 18, 4), C(40, 8, 3), 'M188 136 Q180 120 188 105 T188 80', 'M12 136 Q20 122 12 108 T12 88'] },
@@ -509,6 +569,7 @@ function setPage(i) {
   drawPageOnPaper(lc, PAGES[i]);
   LD = lc.getImageData(0, 0, W, H).data;
   store('page', PAGES[i].name);
+  if (typeof showLetButton === 'function') showLetButton();
 }
 function snap() {
   try {
@@ -697,7 +758,7 @@ function flood(sx, sy, hex) {
 function show(id) { $(id).classList.add('show'); }
 function hideAll() { document.querySelectorAll('.ov').forEach((o) => o.classList.remove('show')); }
 document.querySelectorAll('[data-close]').forEach((b) => b.addEventListener('click', hideAll));
-document.querySelectorAll('.ov').forEach((o) => o.addEventListener('click', (e) => { if (e.target === o && (o.id !== 'whoOv' || load('kid'))) hideAll(); }));
+document.querySelectorAll('.ov').forEach((o) => o.addEventListener('click', (e) => { if (e.target === o && o.id !== 'sceneOv' && (o.id !== 'whoOv' || load('kid'))) hideAll(); }));
 
 const grid = $('#pageGrid');
 PAGES.forEach((pg, i) => {
@@ -785,6 +846,555 @@ $('#shareBtn').addEventListener('click', async () => {
   if (!shareFile) return;
   try { await navigator.share({ files: [shareFile], title: 'My picture' }); } catch (e) {}
 });
+
+/* ---------- play scenes: colored pictures come alive ---------- */
+// Each scene has a cap. When a scene is full, the oldest one leaves in a way that fits the scene.
+const SCENES = {
+  aquarium: { name: 'Aquarium', cap: 12, verb: 'Let it swim', hint: 'Tap the water to call the fish', burst: 'Here fishy fishy!', empty: 'Color the fish and tap Let it swim', color: '#2EC4B6' },
+  track: { name: 'Race Track', cap: 6, verb: 'Let it race', hint: 'Tap for turbo', burst: 'TURBO!', empty: 'Color a race car and tap Let it race', color: '#FF4D4D' },
+  arena: { name: 'Monster Truck Arena', cap: 6, verb: 'Let it race', hint: 'Tap for big jumps', burst: 'BIG JUMPS!', empty: 'Color the monster truck and tap Let it race', color: '#FF9F1C' },
+  stage: { name: 'Ballet', cap: 5, verb: 'Let her dance', hint: 'Tap for a leap and a twirl', burst: 'Bravo!', empty: 'Color the ballerina and tap Let her dance', color: '#8E5CF7' }
+};
+
+// Which coloring pages can come alive, and how each one is cut into moving pieces.
+// All numbers are in the 200 x 150 coloring-page space. box = the area cut out,
+// anchor = the point the scene positions (feet, wheels or middle), pivot = where a piece turns.
+const SPRITES = {
+  'Fish': { scene: 'aquarium', box: [36, 34, 150, 82], anchor: [110, 75], pieces: [
+    { n: 'tail', fill: [P('140,75 180,45 172,75 180,105')], line: [P('140,75 180,45 172,75 180,105')], pivot: [143, 75] },
+    { n: 'body', fill: [E(95, 75, 52, 34)], line: [E(95, 75, 52, 34), C(70, 66, 7), C(71, 66, 2.5), 'M110 43 Q120 75 110 107', 'M126 47 Q134 75 126 103', E(98, 84, 14, 7)] }
+  ] },
+  'Race car': { scene: 'track', box: [6, 56, 182, 76], anchor: [97, 130], pieces: [
+    { n: 'body', fill: ['M18 110 L22 96 Q40 88 70 88 L88 74 H118 L128 88 Q170 88 182 100 L184 110 Z', R(10, 62, 30, 8), C(104, 70, 10)],
+      line: [R(10, 62, 30, 8), 'M25 70 V92', C(104, 70, 10), 'M96 68 H112', 'M18 110 L22 96 Q40 88 70 88 L88 74 H118 L128 88 Q170 88 182 100 L184 110 Z', C(80, 99, 8), 'M92 103 H132'] },
+    { n: 'wheelA', fill: [C(52, 112, 18)], line: [C(52, 112, 18), C(52, 112, 7), 'M45 112 H59'], pivot: [52, 112] },
+    { n: 'wheelB', fill: [C(152, 112, 18)], line: [C(152, 112, 18), C(152, 112, 7), 'M145 112 H159'], pivot: [152, 112] }
+  ] },
+  'Stock car': { scene: 'track', box: [14, 58, 182, 74], anchor: [102, 130], pieces: [
+    { n: 'body', fill: ['M20 112 V94 Q20 86 30 86 L60 84 L78 62 H130 L150 84 L176 88 Q184 90 184 98 V112 Z', 'M176 88 L180 76 H190 L188 90 Z'],
+      line: ['M176 88 L180 76 H190 L188 90', 'M20 112 V94 Q20 86 30 86 L60 84 L78 62 H130 L150 84 L176 88 Q184 90 184 98 V112 Z', P('82,66 104,66 104,84 68,84'), P('110,66 128,66 144,84 110,84'), C(110, 100, 11), 'M30 96 H70', C(178, 96, 3)] },
+    { n: 'wheelA', fill: [C(55, 114, 16)], line: [C(55, 114, 16), C(55, 114, 6), 'M49 114 H61'], pivot: [55, 114] },
+    { n: 'wheelB', fill: [C(150, 114, 16)], line: [C(150, 114, 16), C(150, 114, 6), 'M144 114 H156'], pivot: [150, 114] }
+  ] },
+  'Monster truck': { scene: 'arena', box: [26, 24, 164, 124], anchor: [109, 146], pieces: [
+    { n: 'body', fill: ['M96 62 V34 Q96 28 102 28 H136 L156 62 Z', 'M30 62 H176 Q186 62 186 72 V92 H30 Z', 'M40 62 V50 H88 V62 Z'],
+      line: ['M96 62 V34 Q96 28 102 28 H136 L156 62', 'M30 62 H176 Q186 62 186 72 V92 H30 Z', 'M40 62 V50 H88 V62', 'M104 34 H134 L148 58 H104 Z', 'M36 84 Q52 70 62 82 Q74 68 84 82 Q96 68 106 82 Q118 70 128 84', C(180, 70, 4), 'M58 92 l4 -5 l4 5 M152 92 l4 -5 l4 5'] },
+    { n: 'wheelA', fill: [C(62, 118, 28)], line: [C(62, 118, 28), TREADS(62, 118), C(62, 118, 13)], pivot: [62, 118] },
+    { n: 'wheelB', fill: [C(156, 118, 28)], line: [C(156, 118, 28), TREADS(156, 118), C(156, 118, 13)], pivot: [156, 118] }
+  ] },
+  'Ballerina': { scene: 'stage', box: [60, 2, 80, 140], anchor: [100, 137], pieces: [
+    { n: 'armL', line: ['M93 49 Q80 38 83 22 Q86 12 95 9', C(95, 9, 2.2)], pivot: [93, 49] },
+    { n: 'armR', line: ['M107 49 Q120 38 117 22 Q114 12 105 9', C(105, 9, 2.2)], pivot: [107, 49] },
+    { n: 'legL', fill: ['M95 84.2 L93 128 H98.5 L99.5 86.48 Q97.25 86.28 95 84.2 Z', 'M92.5 128 H99 L98.5 137 H93.5 Z'], line: ['M95 84.2 L93 128 H98.5 L99.5 86.48 Q97.25 86.28 95 84.2 Z', 'M92.5 128 H99 L98.5 137 H93.5 Z', 'M93 133 L98.5 131'], pivot: [97, 84] },
+    { n: 'legR', fill: ['M100.5 86.48 L101.5 128 H107 L105 84.2 Q102.75 86.28 100.5 86.48 Z', 'M101 128 H107.5 L106.5 137 H101.5 Z'], line: ['M100.5 86.48 L101.5 128 H107 L105 84.2 Q102.75 86.28 100.5 86.48 Z', 'M101 128 H107.5 L106.5 137 H101.5 Z', 'M101.5 131 L107 133'], pivot: [103, 84] },
+    { n: 'bodice', fill: ['M92 46 H108 L106 68.8 Q100 62.2 94 68.8 Z'], line: ['M97.5 40.5 V46 M102.5 40.5 V46', 'M92 46 H108 L106 68.8 Q100 62.2 94 68.8 Z'] },
+    { n: 'tutu', fill: ['M64 75 Q71 66 79 72 Q86 63 93 70 Q100 61 107 70 Q114 63 121 72 Q129 66 136 75 Q129 85 121 80 Q114 89 107 82 Q100 91 93 82 Q86 89 79 80 Q71 85 64 75 Z'],
+      line: ['M64 75 Q71 66 79 72 Q86 63 93 70 Q100 61 107 70 Q114 63 121 72 Q129 66 136 75 Q129 85 121 80 Q114 89 107 82 Q100 91 93 82 Q86 89 79 80 Q71 85 64 75 Z'], pivot: [100, 75] },
+    { n: 'head', fill: [C(100, 15, 6), C(100, 30, 11)], line: [C(100, 15, 6), C(100, 30, 11), C(96.3, 29.5, 1.3), C(103.7, 29.5, 1.3), 'M97 34.5 Q100 37 103 34.5'] }
+  ] }
+};
+
+const CUT_Q = 3;   // pixels per coloring-page unit in each cut-out piece
+function cutOut(def) {
+  const s = H / 150, ox = (W - 200 * s) / 2;
+  const [bx, by, bw, bh] = def.box;
+  const out = {};
+  def.pieces.forEach((pc) => {
+    const c = document.createElement('canvas');
+    c.width = Math.ceil(bw * CUT_Q); c.height = Math.ceil(bh * CUT_Q);
+    const x = c.getContext('2d');
+    const toPage = () => x.setTransform(CUT_Q, 0, 0, CUT_Q, -bx * CUT_Q, -by * CUT_Q);
+    if (pc.fill) {
+      toPage();
+      pc.fill.forEach((d) => x.fill(p2d(d)));
+      x.globalCompositeOperation = 'source-in';        // keep the kid's colors only inside the shape
+      x.setTransform(1, 0, 0, 1, 0, 0);
+      x.drawImage(paint, ox + bx * s, by * s, bw * s, bh * s, 0, 0, c.width, c.height);
+      x.globalCompositeOperation = 'source-over';
+    }
+    toPage();
+    x.lineWidth = 1.3; x.strokeStyle = LINE; x.lineJoin = 'round'; x.lineCap = 'round';
+    (pc.line || []).forEach((d) => x.stroke(p2d(d)));
+    out[pc.n] = c.toDataURL('image/png');
+  });
+  return out;
+}
+
+/* saved friends live on this iPad (IndexedDB), so scenes work in airplane mode */
+const memFriends = [];
+let memId = 1;
+const DB = (() => {
+  let dbp = null;
+  const open = () => dbp || (dbp = new Promise((res, rej) => {
+    try {
+      const r = indexedDB.open('paintpad', 1);
+      r.onupgradeneeded = () => r.result.createObjectStore('friends', { keyPath: 'id', autoIncrement: true });
+      r.onsuccess = () => res(r.result);
+      r.onerror = () => rej(r.error);
+    } catch (e) { rej(e); }
+  }));
+  const run = (mode, fn) => open().then((db) => new Promise((res, rej) => {
+    const t = db.transaction('friends', mode);
+    const req = fn(t.objectStore('friends'));
+    t.oncomplete = () => res(req ? req.result : undefined);
+    t.onerror = () => rej(t.error);
+  }));
+  return {
+    add: (rec) => run('readwrite', (st) => st.add(rec)).catch(() => { rec.id = memId++; memFriends.push(rec); return rec.id; }),
+    all: () => run('readonly', (st) => st.getAll()).catch(() => memFriends.slice()),
+    del: (id) => run('readwrite', (st) => st.delete(id)).catch(() => { const i = memFriends.findIndex((r) => r.id === id); if (i >= 0) memFriends.splice(i, 1); })
+  };
+})();
+
+/* ---------- scene engine ---------- */
+const SW = 1140, SH = 704;                        // every scene is laid out on this size and scaled to fit
+const sceneOv = $('#sceneOv'), sceneCv = $('#sceneCv'), sx = sceneCv.getContext('2d');
+let SC = null;                                     // the open scene
+const seeded = (n) => { const v = Math.sin(n * 127.1 + 311.7) * 43758.5453; return v - Math.floor(v); };
+const smooth = (u) => { u = Math.max(0, Math.min(1, u)); return u * u * (3 - 2 * u); };
+const lerp = (a, b, u) => a + (b - a) * u;
+
+function loadImg(src) {
+  return new Promise((res) => { const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null); im.src = src; });
+}
+
+async function openScene(key, newId) {
+  const def = SCENES[key];
+  const recs = (await DB.all()).filter((r) => r.scene === key).sort((a, b) => a.at - b.at);
+  const extra = Math.max(0, recs.length - def.cap);
+  const friends = [];
+  for (let i = 0; i < recs.length; i++) {
+    const r = recs[i];
+    const imgs = {};
+    for (const k of Object.keys(r.pieces)) imgs[k] = await loadImg(r.pieces[k]);
+    friends.push({ id: r.id, kind: r.kind, imgs, seed: seeded(r.id), isNew: r.id === newId, leaving: i < extra, enterT: r.id === newId ? 0.4 : -99, leaveT: i < extra ? 0.2 : null, gone: false });
+  }
+  recs.slice(0, extra).forEach((r) => DB.del(r.id));   // the oldest are on their way out
+  SC = { key, def, friends, t0: performance.now(), t: 0, prev: 0, tapAt: -99, tapX: 0, tapY: 0, st: {} };
+  $('#sceneTitle').textContent = (kid ? kid + "'s " : '') + def.name;
+  $('#scenePill').textContent = def.hint;
+  $('#scenePill').style.background = '#FFFFFF';
+  $('#scenePill').style.color = 'var(--soft)';
+  sceneOv.classList.add('show');
+  sizeScene();
+  RENDER[key].init(SC);
+  cancelAnimationFrame(SC.raf);
+  const loop = (now) => {
+    if (!SC) return;
+    const t = (now - SC.t0) / 1000;
+    SC.dt = Math.min(0.05, t - SC.t); SC.t = t;
+    drawScene();
+    SC.raf = requestAnimationFrame(loop);
+  };
+  SC.raf = requestAnimationFrame(loop);
+}
+function closeScene() {
+  if (SC) cancelAnimationFrame(SC.raf);
+  SC = null;
+  sceneOv.classList.remove('show');
+}
+let sceneScale = 1, sceneDpr = 1;
+function sizeScene() {
+  const box = $('#sceneBox');
+  const w = box.clientWidth, h = box.clientHeight;
+  const s = Math.min(w / SW, h / SH);
+  sceneCv.style.width = Math.floor(SW * s) + 'px';
+  sceneCv.style.height = Math.floor(SH * s) + 'px';
+  sceneDpr = Math.min(2, window.devicePixelRatio || 1);
+  sceneScale = s * sceneDpr;
+  sceneCv.width = Math.round(SW * sceneScale);
+  sceneCv.height = Math.round(SH * sceneScale);
+  if (SC) SC.bg = null;                            // backgrounds are redrawn at the new size
+}
+window.addEventListener('resize', () => { if (SC) sizeScene(); });
+
+function cachedLayer(name, drawFn) {
+  if (!SC.bg) SC.bg = {};
+  if (!SC.bg[name]) {
+    const c = document.createElement('canvas');
+    c.width = sceneCv.width; c.height = sceneCv.height;
+    const x = c.getContext('2d');
+    x.setTransform(sceneScale, 0, 0, sceneScale, 0, 0);
+    x.lineJoin = 'round'; x.lineCap = 'round';
+    drawFn(x);
+    SC.bg[name] = c;
+  }
+  sx.setTransform(1, 0, 0, 1, 0, 0);
+  sx.drawImage(SC.bg[name], 0, 0);
+  sx.setTransform(sceneScale, 0, 0, sceneScale, 0, 0);
+}
+
+function drawScene() {
+  sx.setTransform(sceneScale, 0, 0, sceneScale, 0, 0);
+  sx.lineJoin = 'round'; sx.lineCap = 'round';
+  RENDER[SC.key].frame(SC, sx, SC.t);
+  SC.friends = SC.friends.filter((f) => !f.gone);
+  if (!SC.friends.length) {
+    sx.fillStyle = 'rgba(255,255,255,0.9)';
+    roundRect(sx, SW / 2 - 300, SH / 2 - 44, 600, 88, 30); sx.fill();
+    sx.fillStyle = '#2B2340'; sx.font = '600 28px Fredoka, system-ui, sans-serif';
+    sx.textAlign = 'center'; sx.textBaseline = 'middle';
+    sx.fillText(SC.def.empty, SW / 2, SH / 2 + 2);
+  }
+  const boosting = SC.t - SC.tapAt < 2.6;
+  const pill = $('#scenePill');
+  const want = boosting ? SC.def.burst : SC.def.hint;
+  if (pill.textContent !== want) {
+    pill.textContent = want;
+    pill.style.background = boosting ? SC.def.color : '#FFFFFF';
+    pill.style.color = boosting ? '#FFFFFF' : 'var(--soft)';
+  }
+}
+function roundRect(c, x, y, w, h, r) { c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); }
+
+sceneCv.addEventListener('pointerdown', (e) => {
+  if (!SC) return;
+  e.preventDefault();
+  const r = sceneCv.getBoundingClientRect();
+  SC.tapX = (e.clientX - r.left) * SW / r.width;
+  SC.tapY = (e.clientY - r.top) * SH / r.height;
+  if (SC.t - SC.tapAt > 2.6 || SC.key === 'aquarium') SC.tapAt = SC.t;
+  sfx('pop');
+});
+$('#sceneBack').addEventListener('click', () => { closeScene(); sfx('tool'); });
+
+// draw a cut-out friend: (x, y) is where its anchor goes, k = scene pixels per coloring-page unit
+function drawFriend(c, f, x, y, k, flip, rot, pose) {
+  const def = SPRITES[f.kind];
+  const [bx, by, bw, bh] = def.box, [ax, ay] = def.anchor;
+  c.save();
+  c.translate(x, y);
+  if (rot) c.rotate(rot);
+  c.scale(flip * k, k);
+  c.translate(-ax, -ay);
+  def.pieces.forEach((pc) => {
+    const im = f.imgs[pc.n];
+    if (!im) return;
+    const p = pose && pose[pc.n];
+    if (p) {
+      const [px, py] = pc.pivot || def.anchor;
+      c.save();
+      c.translate(px, py);
+      if (p.r) c.rotate(p.r);
+      if (p.sx || p.sy) c.scale(p.sx || 1, p.sy || 1);
+      c.translate(-px, -py);
+      c.drawImage(im, bx, by, bw, bh);
+      c.restore();
+    } else c.drawImage(im, bx, by, bw, bh);
+  });
+  c.restore();
+}
+const pathCache2 = {};
+const P2 = (d) => pathCache2[d] || (pathCache2[d] = new Path2D(d));
+function shape(c, d, fill, stroke, lw) {
+  const p = P2(d);
+  if (fill) { c.fillStyle = fill; c.fill(p); }
+  if (stroke) { c.strokeStyle = stroke; c.lineWidth = lw || 4; c.stroke(p); }
+}
+const PARTY = ['#FF4D4D', '#FFD60A', '#3A6FF7', '#8AC926', '#FF70A6', '#FF9F1C', '#8E5CF7', '#2EC4B6'];
+function crowd(c, t, y0, cheer, count) {
+  for (let row = 0; row < 3; row++) {
+    for (let i = 0; i < count; i++) {
+      const jump = cheer ? Math.max(0, 9 * Math.sin(t * 14 + i * 1.3 + row)) : Math.max(0, 2 * Math.sin(t * 3 + i + row));
+      c.beginPath();
+      c.arc(14 + i * (SW / (count - 0.5)) + (row % 2) * 22, y0 + row * 30 - jump, 10.5, 0, Math.PI * 2);
+      c.fillStyle = PARTY[(i * 3 + row * 5) % 8]; c.fill();
+      c.lineWidth = 3; c.strokeStyle = LINE; c.stroke();
+    }
+  }
+}
+const starPath = (x, y, r1, r2) => {
+  let d = '';
+  for (let k = 0; k < 10; k++) { const r = k % 2 ? r2 : r1, a = -Math.PI / 2 + k * Math.PI / 5; d += (k ? 'L' : 'M') + (x + r * Math.cos(a)).toFixed(1) + ' ' + (y + r * Math.sin(a)).toFixed(1); }
+  return d + 'Z';
+};
+
+const RENDER = {};
+
+/* ----- aquarium ----- */
+RENDER.aquarium = {
+  init(S) { S.st.bubbles = []; },
+  pos(f, i, t, S) {
+    const sp = 0.2 + 0.2 * seeded(f.id + 1), ph = seeded(f.id + 2) * 6.28;
+    const y0 = 140 + seeded(f.id + 3) * 380;
+    let x = 570 + 450 * Math.sin(sp * t + ph);
+    let y = y0 + 34 * Math.sin(1.7 * sp * t + ph * 2);
+    const age = t - S.tapAt;
+    if (age >= 0 && age < 5) {
+      const w = age < 1.2 ? age / 1.2 : age < 3.8 ? 1 : 1 - (age - 3.8) / 1.2;
+      const e = smooth(w), a = i * 1.05 + t * 0.6;
+      const ty = Math.min(560, Math.max(90, S.tapY));
+      x = lerp(x, S.tapX + Math.cos(a) * (70 + i * 10), e);
+      y = lerp(y, ty + Math.sin(a) * (40 + i * 6), e);
+    }
+    if (t < f.enterT + 3.2) { const u = smooth((t - f.enterT) / 3.2); x = lerp(1320, x, u); y = lerp(y0, y, u); }
+    if (f.leaveT !== null && t > f.leaveT) { const u = smooth((t - f.leaveT) / 3.5); x = lerp(x, -320, u); if (u >= 1) f.gone = true; }
+    return { x, y };
+  },
+  frame(S, c, t) {
+    cachedLayer('back', (b) => {
+      b.fillStyle = '#3FA9E0'; b.fillRect(0, 0, SW, SH);
+      b.fillStyle = '#4DB8EA'; b.fillRect(0, 0, SW, 230);
+      b.fillStyle = 'rgba(255,255,255,0.07)';
+      ['M160 0 L260 0 L120 704 L40 704Z', 'M520 0 L580 0 L470 704 L400 704Z', 'M860 0 L950 0 L900 704 L800 704Z'].forEach((d) => b.fill(P2(d)));
+    });
+    [[120, 230, '#2A9D55'], [150, 170, '#8AC926'], [640, 260, '#2A9D55'], [990, 200, '#8AC926'], [1030, 280, '#2A9D55']].forEach(([x, h, col], i) => {
+      c.save(); c.translate(x, 640); c.rotate(0.09 * Math.sin(t * 1.1 + i));
+      c.beginPath(); c.moveTo(0, 0); c.quadraticCurveTo(-26, -h / 3, 0, -h / 2); c.quadraticCurveTo(26, -2 * h / 3, 0, -h);
+      c.strokeStyle = col; c.lineWidth = 14; c.stroke(); c.restore();
+    });
+    shape(c, 'M0 640 Q 280 600 570 628 T 1140 618 L1140 704 L0 704 Z', '#FFCFA3', LINE, 5);
+    shape(c, 'M254 650 A46 22 0 1 0 346 650 A46 22 0 1 0 254 650Z', '#8D8D99', LINE, 5);
+    shape(c, 'M320 660 A30 16 0 1 0 380 660 A30 16 0 1 0 320 660Z', '#B5B5C0', LINE, 5);
+    shape(c, 'M880 655 l14 -28 l14 28 z', '#FF70A6', LINE, 5);
+    for (let i = 0; i < 9; i++) {
+      const k = (t * (0.08 + (i % 3) * 0.03) + i * 0.137) % 1;
+      c.beginPath(); c.arc(90 + i * 120 + 14 * Math.sin(t * 2 + i), 640 - k * 700, 6 + (i % 3) * 3, 0, Math.PI * 2);
+      c.fillStyle = 'rgba(255,255,255,0.25)'; c.fill(); c.strokeStyle = 'rgba(255,255,255,0.8)'; c.lineWidth = 3; c.stroke();
+    }
+    const age = t - S.tapAt;
+    if (age >= 0 && age < 2.2) {
+      for (let i = 0; i < 8; i++) {
+        c.beginPath(); c.arc(S.tapX + (i - 3.5) * 14 + 10 * Math.sin(age * 5 + i), S.tapY - age * (120 + i * 18), 5 + (i % 3) * 4, 0, Math.PI * 2);
+        c.strokeStyle = 'rgba(255,255,255,' + (1 - age / 2.2).toFixed(2) + ')'; c.lineWidth = 3; c.stroke();
+      }
+    }
+    S.friends.forEach((f, i) => {
+      const p = this.pos(f, i, t, S), q = this.pos(f, i, t - 0.05, S);
+      const flip = p.x >= q.x ? -1 : 1;                 // the fish page faces left
+      const k = 1.15 + 0.45 * seeded(f.id + 4);
+      drawFriend(c, f, p.x, p.y, k, flip, 0, { tail: { r: 0.24 * Math.sin(t * (6 + (i % 4))) } });
+    });
+  }
+};
+
+/* ----- race track (cars) ----- */
+RENDER.track = {
+  init(S) {
+    S.st.lanes = [{ k: 0.95, y: 412, v: 280 }, { k: 1.3, y: 548, v: 330 }, { k: 1.6, y: 690, v: 305 }];
+    S.friends.forEach((f, i) => { f.dist = f.isNew ? 0 : (i * 567) % 1700; });
+  },
+  frame(S, c, t) {
+    const boost = t - S.tapAt < 2.6;
+    cachedLayer('back', (b) => {
+      b.fillStyle = '#BDE6FF'; b.fillRect(0, 0, SW, SH);
+      shape(b, 'M1008 78 A42 42 0 1 0 1092 78 A42 42 0 1 0 1008 78Z', '#FFD60A', LINE, 4);
+      shape(b, 'M90 110 Q100 84 128 96 Q146 70 172 92 Q198 92 192 112 H96 Q82 112 90 110Z', '#FFFFFF', LINE, 4);
+      shape(b, 'M560 70 Q570 46 596 56 Q612 34 636 52 Q660 52 654 72 H566 Q552 72 560 70Z', '#FFFFFF', LINE, 4);
+      shape(b, 'M-10 168 H1150 V292 H-10Z', '#8D8D99', LINE, 4);
+      shape(b, 'M-10 292 H1150 V722 H-10Z', '#5B5B66', LINE, 4);
+      b.strokeStyle = '#FFFFFF'; b.lineWidth = 5; b.stroke(P2('M0 300 H1140 M0 696 H1140'));
+      b.setLineDash([44, 34]); b.lineWidth = 6; b.stroke(P2('M0 420 H1140 M0 556 H1140')); b.setLineDash([]);
+      for (let r = 0; r < 25; r++) for (let cc = 0; cc < 2; cc++) { b.fillStyle = (r + cc) % 2 ? LINE : '#FFFFFF'; b.fillRect(960 + cc * 16, 300 + r * 16, 16, 16); }
+    });
+    crowd(c, t, 204, boost, 26);
+    for (let i = 0; i < 24; i++) { const x = i * 48; shape(c, `M${x} 172 L${x + 40} 172 L${x + 20} 198Z`, PARTY[i % 8], LINE, 3); }
+    c.strokeStyle = LINE; c.lineWidth = 4; c.beginPath(); c.moveTo(-10, 172); c.lineTo(1150, 172); c.stroke();
+    const wave = (boost ? 14 : 6) * Math.sin(t * (boost ? 12 : 5));
+    c.strokeStyle = LINE; c.lineWidth = 6; c.beginPath(); c.moveTo(1000, 300); c.lineTo(1000, 150); c.stroke();
+    shape(c, `M1000 152 Q1035 ${140 + wave} 1070 152 V200 Q1035 ${188 + wave} 1000 200 Z`, '#FFFFFF', LINE, 4);
+    c.fillStyle = LINE; c.fill(P2('M1000 152 H1023 V176 H1000 Z M1046 152 H1070 V176 H1046 Z M1023 176 H1046 V200 H1023 Z'));
+    const lanes = S.st.lanes, span = 1700;
+    const order = S.friends.map((f, i) => ({ f, lane: lanes[i % 3] })).sort((a, b) => a.lane.y - b.lane.y);
+    order.forEach(({ f, lane }) => {
+      f.dist = (f.dist || 0) + S.dt * lane.v * (boost ? 2.3 : 1);
+      const x = f.dist % span - 120;
+      if (f.leaving && t > f.leaveT && f.prevX !== undefined && x < f.prevX) { f.gone = true; return; }   // drove off after its last lap
+      f.prevX = x;
+      const k = lane.k, y = lane.y + (boost ? 1.5 : 1) * Math.sin(t * 18 + f.id);
+      if (boost) {
+        c.strokeStyle = 'rgba(255,255,255,0.85)'; c.lineWidth = 6;
+        for (let j = 0; j < 3; j++) { const lx = x - 100 * k - 30 - j * 18 - 20 * Math.abs(Math.sin(t * 20 + j)); c.beginPath(); c.moveTo(lx, y - 50 * k + j * 16 * k); c.lineTo(lx + 30 + j * 8, y - 50 * k + j * 16 * k); c.stroke(); }
+      }
+      const r = f.dist / (17 * k);
+      drawFriend(c, f, x, y, k, 1, 0, { wheelA: { r }, wheelB: { r } });
+    });
+  }
+};
+
+/* ----- monster truck arena (figure 8) ----- */
+RENDER.arena = {
+  init(S) { S.friends.forEach((f, i) => { f.th = i * 2.39996; f.roll = 0; }); },
+  track() {
+    let d = '';
+    for (let k = 0; k <= 240; k++) { const a = 2 * Math.PI * k / 240; d += (k ? 'L' : 'M') + (570 + 420 * Math.sin(a)).toFixed(1) + ' ' + (452 + 420 * Math.sin(a) * Math.cos(a)).toFixed(1); }
+    return d + 'Z';
+  },
+  frame(S, c, t) {
+    const boost = t - S.tapAt < 2.6;
+    cachedLayer('back', (b) => {
+      b.fillStyle = '#8AC926'; b.fillRect(0, 0, SW, SH);
+      b.fillStyle = '#BDE6FF'; b.fillRect(0, 0, SW, 70);
+      shape(b, 'M-10 60 H1150 V172 H-10Z', '#8D8D99', LINE, 4);
+      b.strokeStyle = '#7DB821'; b.lineWidth = 40; b.stroke(P2('M0 260 H1140 M0 360 H1140 M0 470 H1140 M0 590 H1140'));
+      shape(b, 'M-10 172 H1150 V192 H-10Z', '#FF4D4D', LINE, 4);
+      const tr = P2(this.track());
+      b.strokeStyle = LINE; b.lineWidth = 112; b.stroke(tr);
+      b.strokeStyle = '#B07A4F'; b.lineWidth = 102; b.stroke(tr);
+      b.strokeStyle = '#9C6644'; b.lineWidth = 3; b.setLineDash([18, 22]);
+      b.save(); b.translate(0, -22); b.stroke(tr); b.translate(0, 44); b.stroke(tr); b.restore(); b.setLineDash([]);
+      shape(b, 'M496 452 A74 30 0 1 0 644 452 A74 30 0 1 0 496 452Z', '#7A4E2E', LINE, 4);
+      shape(b, 'M520 446 A50 16 0 1 0 620 446 A50 16 0 1 0 520 446Z', '#8E5B38');
+      shape(b, 'M246 452 A54 20 0 1 0 354 452 A54 20 0 1 0 246 452Z', '#6B4528', LINE, 4);
+      shape(b, 'M786 452 A54 20 0 1 0 894 452 A54 20 0 1 0 786 452Z', '#6B4528', LINE, 4);
+      [80, 1060].forEach((x) => [640, 626, 612].forEach((y, j) => shape(b, `M${x - 30} ${y} A30 12 0 1 0 ${x + 30} ${y} A30 12 0 1 0 ${x - 30} ${y}Z`, j === 2 ? '#333333' : '#222222', LINE, 4)));
+      ['M560 250 L572 222 L584 250Z', 'M556 672 L570 640 L584 672Z', 'M60 300 L72 272 L84 300Z', 'M1056 300 L1068 272 L1080 300Z'].forEach((d) => shape(b, d, '#FF9F1C', LINE, 4));
+    });
+    crowd(c, t, 84, boost, 27);
+    const H0 = boost ? 135 : 75, Wn = 0.34;
+    const draws = [];
+    S.friends.forEach((f, i) => {
+      const a0 = f.th;
+      const v = Math.max(120, Math.hypot(420 * Math.cos(a0), 420 * Math.cos(2 * a0)));
+      f.th += S.dt * 190 * (boost ? 1.8 : 1) / v;
+      f.roll += S.dt * 180 * (boost ? 1.8 : 1);
+      const a = f.th;
+      let x = 570 + 420 * Math.sin(a), y = 452 + 420 * Math.sin(a) * Math.cos(a);
+      const flip = Math.cos(a) >= 0 ? 1 : -1;
+      const m = ((a % Math.PI) + Math.PI) % Math.PI, off = m < Math.PI / 2 ? m : m - Math.PI;
+      let lift = 0, tilt = 0, puff = -1;
+      if (Math.abs(off) < Wn) { const u = (off + Wn) / (2 * Wn); lift = H0 * 4 * u * (1 - u); tilt = (-18 + 36 * u) * Math.PI / 180; }
+      else if (off > Wn && off < Wn + 0.18) puff = (off - Wn) / 0.18;
+      if (t < f.enterT + 1.4) {                              // a new truck drops in from the sky
+        const u = (t - f.enterT) / 1.4;
+        lift = u < 0 ? 900 : u < 0.6 ? 900 * (1 - u / 0.6) * (1 - u / 0.6) : 40 * Math.abs(Math.sin((u - 0.6) * Math.PI / 0.4)) * (1 - u);
+        if (u > 0.55 && u < 0.85) puff = (u - 0.55) / 0.3;
+      }
+      if (f.leaving && t > f.leaveT) {                       // an old truck drives out of the arena
+        const u = smooth((t - f.leaveT) / 2.6);
+        x = lerp(x, 1340, u); y = lerp(y, 640, u);
+        if (u >= 1) f.gone = true;
+      }
+      const k = (0.62 + 0.55 * (y - 242) / 420) * 1.1;
+      const bounce = lift ? 0 : 3 * Math.abs(Math.sin(t * 9 + i));
+      draws.push({ y, fn: () => {
+        c.beginPath(); c.ellipse(x, y + 2, Math.max(8, 70 * k * (1 - Math.min(0.9, lift / 300))), 16 * k, 0, 0, Math.PI * 2);
+        c.fillStyle = 'rgba(31,26,46,0.25)'; c.fill();
+        if (puff >= 0) for (let j = 0; j < 5; j++) {
+          c.beginPath(); c.arc(x + (j - 2) * 16 * k, y - puff * 24 * k - (j % 2) * 8, (6 + puff * 12) * k, 0, Math.PI * 2);
+          c.fillStyle = 'rgba(217,180,143,' + (1 - puff).toFixed(2) + ')'; c.fill();
+        }
+        const r = f.roll / 28;
+        drawFriend(c, f, x, y - lift - bounce, k, flip, tilt * flip, { wheelA: { r }, wheelB: { r } });
+      } });
+    });
+    draws.sort((p, q) => p.y - q.y).forEach((d) => d.fn());
+  }
+};
+
+/* ----- ballet stage ----- */
+RENDER.stage = {
+  init(S) {},
+  homes(n) {
+    if (n <= 1) return [570];
+    const gap = Math.min(250, 560 / (n - 1));
+    return Array.from({ length: n }, (_, i) => 570 - gap * (n - 1) / 2 + gap * i);
+  },
+  frame(S, c, t) {
+    cachedLayer('back', (b) => {
+      b.fillStyle = '#3B2A5C'; b.fillRect(0, 0, SW, SH);
+      shape(b, 'M0 520 H1140 V704 H0Z', '#C98B5A', LINE, 4);
+      b.strokeStyle = '#A86F43'; b.lineWidth = 3; b.stroke(P2('M0 560 H1140 M0 610 H1140 M0 664 H1140 M190 520 L160 704 M420 520 L410 704 M720 520 L730 704 M950 520 L980 704'));
+    });
+    [210, 360, 480, 660, 780, 930, 1000].forEach((x, i) => {
+      const y = 110 + (i % 3) * 40;
+      c.strokeStyle = '#B9A8E0'; c.lineWidth = 2; c.beginPath(); c.moveTo(x, 46); c.lineTo(x, y - 16); c.stroke();
+      c.save(); c.translate(x, 46); c.rotate(0.14 * Math.sin(t * 1.3 + i)); c.translate(-x, -46);
+      shape(c, starPath(x, y, 16, 7), '#FFD60A', LINE, 3); c.restore();
+    });
+    const live = S.friends;
+    const homes = this.homes(live.filter((f) => !f.leaving).length);
+    let hi = 0;
+    const since = t - S.tapAt, show = since >= 0 && since < 3.6;
+    const plan = live.map((f, i) => {
+      const home = f.leaving ? (f.home || 570) : homes[hi++];
+      f.home = home;
+      const ph = seeded(f.id + 5) * 6.28, dir = home < 570 ? 1 : home > 570 ? -1 : (i % 2 ? -1 : 1);
+      const sway = 50 * Math.sin(0.55 * t + ph);
+      let bob = 10 * Math.abs(Math.sin(1.9 * t + ph)), spin = 0, lift = 0, dx = 0, tilt = 0, split = 0, arms = null;
+      const own = (t + ph * 1.7) % 7;
+      const leap = (u, dist) => { const e = Math.sin(Math.PI * u); lift = 120 * e; dx = dist * u; bob = 0; split = Math.min(1, e * 1.6) * (dist >= 0 ? 1 : -1); tilt = -0.1 * e * (dist >= 0 ? 1 : -1); arms = 1; };
+      if (own < 1.3) { const u = own / 1.3; spin = u * 720; lift = 26 * Math.sin(Math.PI * u); }
+      if (own >= 3.4 && own < 4.5) leap((own - 3.4) / 1.1, 120 * dir);
+      else if (own >= 4.5 && own < 6.0) { const v = (own - 4.5) / 1.5; dx = 120 * dir * (1 - smooth(v)); }
+      if (show && !f.leaving) {
+        spin = 0; lift = 0; dx = 0; tilt = 0; split = 0; arms = null;
+        if (since < 1.1) leap(since / 1.1, 0);
+        else if (since >= 1.2) { const u = Math.min(1, (since - 1.2) / 2.2); spin = u * 1080; lift = 46 * Math.sin(Math.PI * u); arms = 0; bob = 0; }
+      }
+      let x = home + sway + dx;
+      if (t < f.enterT + 2.6) { const u = smooth((t - f.enterT) / 2.6); x = lerp(1260, x, u); spin = 0; }    // walks on from the right
+      if (f.leaving && t > f.leaveT) {                         // bows, then glides off to the left
+        const u = t - f.leaveT;
+        spin = 0; lift = 0; split = 0; arms = 0;
+        if (u < 1.2) tilt = 0.45 * Math.sin(Math.PI * u / 1.2);
+        else { x = lerp(x, -260, smooth((u - 1.2) / 2.2)); if (u > 3.4) f.gone = true; }
+      }
+      const sxv = Math.cos(spin * Math.PI / 180);
+      const flip = Math.abs(sxv) < 0.12 ? (sxv < 0 ? -0.12 : 0.12) : sxv;
+      const wave = Math.sin(2.1 * t + ph);
+      const aL = arms === 1 ? -95 : arms === 0 ? -8 : -30 + 28 * wave;
+      const aR = arms === 1 ? 95 : arms === 0 ? 8 : 30 - 28 * Math.sin(2.1 * t + ph + 1.4);
+      return { f, x, y: 630 - bob - lift, flip, tilt, pose: {
+        armL: { r: aL * Math.PI / 180 }, armR: { r: aR * Math.PI / 180 },
+        legL: { r: 62 * split * Math.PI / 180 }, legR: { r: -62 * split * Math.PI / 180 },
+        tutu: { sx: 1 + 0.06 * Math.sin(5 * t + i), sy: 1 - 0.08 * Math.sin(5 * t + i) }
+      } };
+    });
+    plan.forEach((p) => { c.fillStyle = 'rgba(255,243,176,0.16)'; c.fill(P2(`M${(p.x - 40).toFixed(0)} 0 L${(p.x + 40).toFixed(0)} 0 L${(p.x + 125).toFixed(0)} 618 L${(p.x - 125).toFixed(0)} 618Z`)); });
+    plan.forEach((p) => { c.beginPath(); c.ellipse(p.x, 618, 120, 26, 0, 0, Math.PI * 2); c.fillStyle = 'rgba(255,243,176,0.35)'; c.fill(); });
+    for (let i = 0; i < 4; i++) {
+      const k = (t * 0.16 + i * 0.25) % 1, x = 260 + i * 200 + 30 * Math.sin(t * 1.5 + i), y = 500 - k * 360;
+      const o = k < 0.15 ? k / 0.15 : 1 - (k - 0.15) / 0.85 * 0.9;
+      c.save(); c.globalAlpha = o; c.translate(x, y);
+      c.strokeStyle = '#FFFFFF'; c.lineWidth = 3.5; c.beginPath(); c.moveTo(0, 0); c.lineTo(0, -26); c.lineTo(16, -30); c.lineTo(16, -6); c.stroke();
+      c.fillStyle = '#FFFFFF'; c.beginPath(); c.ellipse(-4, 0, 5.5, 4.5, 0, 0, Math.PI * 2); c.ellipse(12, -6, 5.5, 4.5, 0, 0, Math.PI * 2); c.fill();
+      c.restore();
+    }
+    plan.forEach((p) => drawFriend(c, p.f, p.x, p.y, 2.6, p.flip, p.tilt, p.pose));
+    if (show && since > 1.0) {
+      const st = since - 1.0;
+      for (let i = 0; i < 22; i++) {
+        c.save(); c.translate(180 + ((i * 397) % 800), -20 + st * (180 + (i % 5) * 40) - (i % 4) * 60); c.rotate((st * 3.5 + i * 0.7) % 6.28);
+        shape(c, starPath(0, 0, 14, 6), ['#FFD60A', '#FF70A6', '#FFFFFF', '#8E5CF7', '#4CC9F0'][i % 5], LINE, 2); c.restore();
+      }
+    }
+    cachedLayer('front', (b) => {
+      shape(b, 'M0 0 H150 Q130 200 160 400 Q140 560 170 704 H0 Z', '#D63A4A', LINE, 4);
+      b.strokeStyle = '#A82434'; b.lineWidth = 5; b.stroke(P2('M40 0 Q30 300 50 704 M95 0 Q80 300 105 704 M1100 0 Q1110 300 1090 704 M1045 0 Q1060 300 1035 704'));
+      shape(b, 'M1140 0 H990 Q1010 200 980 400 Q1000 560 970 704 H1140 Z', '#D63A4A', LINE, 4);
+      b.strokeStyle = '#A82434'; b.stroke(P2('M1100 0 Q1110 300 1090 704 M1045 0 Q1060 300 1035 704'));
+      let d = 'M0 0 H1140 V46';
+      for (let x = 1140; x > 0; x -= 57) d += ` Q${x - 28.5} 76 ${x - 57} 46`;
+      shape(b, d + ' Z', '#D63A4A', LINE, 4);
+      b.strokeStyle = '#FFD60A'; b.lineWidth = 6; b.stroke(P2('M0 20 H1140'));
+    });
+  }
+};
+
+/* ---------- the Let it... button and the Play row ---------- */
+const letBtn = $('#letBtn');
+function showLetButton() {
+  const sp = SPRITES[PAGES[S.page].name];
+  letBtn.hidden = !sp;
+  if (sp) { $('#letLabel').textContent = SCENES[sp.scene].verb; letBtn.style.background = SCENES[sp.scene].color; }
+}
+letBtn.addEventListener('click', async () => {
+  const name = PAGES[S.page].name, sp = SPRITES[name];
+  if (!sp || letBtn.disabled) return;
+  letBtn.disabled = true;
+  try {
+    const pieces = cutOut(sp);
+    const id = await DB.add({ scene: sp.scene, kind: name, pieces, at: Date.now() });
+    sfx('chime');
+    await openScene(sp.scene, id);
+  } finally { letBtn.disabled = false; }
+});
+document.querySelectorAll('[data-scene]').forEach((b) => b.addEventListener('click', () => {
+  hideAll();
+  sfx('tool');
+  openScene(b.dataset.scene, null);
+}));
 
 /* ---------- start ---------- */
 function paperWidth() {
