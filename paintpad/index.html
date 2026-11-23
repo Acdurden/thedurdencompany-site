@@ -54,10 +54,11 @@ footer{grid-area:bottom;display:flex;align-items:center;gap:16px;background:#fff
 .sw{width:42px;height:42px;border-radius:50%;border:3px solid #fff;padding:0;box-shadow:0 0 0 2px #E8DCCB}
 .sw.on{box-shadow:0 0 0 4px var(--ink)}
 .div{width:3px;align-self:stretch;background:var(--line);border-radius:2px}
-#opts{display:flex;align-items:center;gap:10px;min-width:300px}
+/* fixed size, so switching tools never changes the bottom bar or the paper */
+#opts{display:flex;align-items:center;gap:8px;flex:none;width:340px;height:56px;overflow:hidden}
 #opts .lbl{font-size:15px;font-weight:600;color:var(--soft)}
-#opts .hint{font-size:18px;font-weight:500;color:var(--soft);max-width:300px}
-.opt{width:56px;height:56px;border-radius:18px;border:3px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center;padding:0}
+#opts .hint{font-size:17px;font-weight:500;color:var(--soft);line-height:1.2}
+.opt{width:50px;height:50px;flex:none;border-radius:18px;border:3px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center;padding:0}
 .opt.on{border-color:var(--ink);background:var(--pick)}
 .dot{display:block;border-radius:50%}
 .ov{position:fixed;inset:0;z-index:20;background:rgba(43,35,64,.55);display:none;align-items:center;justify-content:center;padding:24px}
@@ -95,7 +96,7 @@ footer{grid-area:bottom;display:flex;align-items:center;gap:16px;background:#fff
   #opts{min-width:0}
 }
 /* shorter screens (iPad mini, Safari with its bars showing): tools shrink so all six fit */
-@media (max-width:1100px){.sw{width:38px;height:38px}#colors{gap:6px}#opts{min-width:250px}}
+@media (max-width:1100px){.sw{width:38px;height:38px}#colors{gap:6px}#opts{width:294px;gap:6px}.opt{width:44px;height:44px}}
 @media (max-height:760px){#tools{gap:8px}.tool{width:84px;font-size:13px;gap:2px;border-radius:20px}.tool svg{width:28px;height:28px}}
 @media (max-height:620px){.tool{width:76px;font-size:12px}.tool svg{width:24px;height:24px}}
 </style>
@@ -486,7 +487,7 @@ function renderOpts() {
     html = Object.keys(STICKERS).map((k) =>
       `<button type="button" class="opt${k === S.sticker ? ' on' : ''}" data-sticker="${k}" aria-label="${k} sticker">${iconSvg(STICKERS[k], null, 34)}</button>`).join('');
   } else if (t === 'fill') {
-    html = '<span class="hint">Tap any space to fill it with your color.</span>';
+    html = '<span class="hint">Tap a space to fill it</span>';
   }
   optsEl.innerHTML = html;
 }
